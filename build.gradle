@@ -45,6 +45,9 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-rest')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+    compile('com.googlecode.json-simple:json-simple:1.1.1')
+    compile('org.springframework.amqp:spring-amqp:2.0.0.M1')
+    compile('org.springframework.amqp:spring-rabbit:2.0.0.M1')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
