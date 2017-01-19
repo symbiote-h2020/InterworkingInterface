@@ -82,7 +82,7 @@ public class exampleRPCServerTests {
             @Override
             public void onSuccess(JSONObject result) {
 
-                log.info("Successful response: " + result);
+                log.info("Successully response: " + result);
                 resultRef.set(result);
 
             }

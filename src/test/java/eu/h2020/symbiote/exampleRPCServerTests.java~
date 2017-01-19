@@ -33,11 +33,11 @@ import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest({"eureka.client.enabled=false", "spring.cloud.sleuth.enabled=false"})
-public class exampleRPCServerTests {
+public class ExampleRPCServerTests {
 
 
 	private static final Logger log = LoggerFactory
-						.getLogger(exampleRPCServerTests.class);
+						.getLogger(ExampleRPCServerTests.class);
 
     @Autowired    
     private AsyncRabbitTemplate asyncRabbitTemplate;
