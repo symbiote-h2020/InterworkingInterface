@@ -89,7 +89,7 @@ public class exampleRPCServerTests {
 
             @Override
             public void onFailure(Throwable ex) {
-                fail("Did not receive response");
+                fail("Did not receive any response");
             }
 
         });

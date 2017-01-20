@@ -21,6 +21,8 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.json.simple.JSONObject;
 
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.TimeUnit;
+import org.springframework.web.context.request.async.DeferredResult;
 
 @Service
 public class ExampleRPCServer {
@@ -29,6 +31,7 @@ public class ExampleRPCServer {
 
     @Autowired
     private AsyncRestTemplate asyncRestTemplate;
+
 
     @RabbitListener(bindings = @QueueBinding(
         value = @Queue(value = "symbIoTe-InterworkingInterface-component-example", durable = "true", autoDelete = "false", exclusive = "false"),
@@ -63,3 +66,50 @@ public class ExampleRPCServer {
         return resultRef.get().getBody();
     }
 }
+
+    // @RabbitListener(bindings = @QueueBinding(
+    //     value = @Queue(value = "symbIoTe-exampleComponent-getexample", durable = "false", autoDelete = "true", exclusive = "true"),
+    //     exchange = @Exchange(value = "symbIoTe.exampleComponent", ignoreDeclarationExceptions = "true", type = ExchangeTypes.DIRECT),
+    //     key = "symbIoTe.exampleComponent.getexample")
+    // )
+    // public JSONObject getExampleListener(JSONObject jsonObject) throws Exception {
+    
+    //     log.info("Received message: " + jsonObject);
+
+    //     String value = jsonObject.get("value").toString();
+    //     jsonObject.put("value", value.toUpperCase());
+
+    //     TimeUnit.SECONDS.sleep(1);
+    //     return jsonObject;
+    // }
+
+    // @RabbitListener(bindings = @QueueBinding(
+    //     value = @Queue(value = "symbIoTe-InterworkingInterface-component-example", durable = "true", autoDelete = "false", exclusive = "false"),
+    //     exchange = @Exchange(value = "symbIoTe.InterworkingInterface", ignoreDeclarationExceptions = "true", type = ExchangeTypes.DIRECT),
+    //     key = "symbIoTe.InterworkingInterface.component.example")
+    // )
+    // public DeferredResult<JSONObject> exampleInterface(JSONObject jsonObject) {
+
+    //     DeferredResult<JSONObject> deferredResult = new DeferredResult<>();
+        
+    //     log.info("Received message: " + jsonObject);
+
+    //     // The AsyncRestTemplate method should change according to the request
+    //     ListenableFuture<ResponseEntity<JSONObject>> exampleQuery = asyncRestTemplate.getForEntity("http://localhost:8101/example/example/bill", JSONObject.class);
+    //     exampleQuery.addCallback(
+    //             new ListenableFutureCallback<ResponseEntity<JSONObject>>() {
+    //                 @Override
+    //                 public void onSuccess(ResponseEntity<JSONObject> result) {
+    //                     log.info("Successfully received response from server: " + result);
+    //                     deferredResult.setResult(result.getBody());
+    //                 }
+ 
+    //                 @Override
+    //                 public void onFailure(Throwable t) {
+    //                     log.info("Failed to fetch result from remote service", t);
+    //                     deferredResult.setResult(new JSONObject());
+    //                 }
+    //             }
+    //     );
+    //     return deferredResult;
+    // }

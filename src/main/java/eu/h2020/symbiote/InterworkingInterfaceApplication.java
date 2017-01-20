@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
+// import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,15 +18,19 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.rabbit.AsyncRabbitTemplate;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 
+import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import java.util.concurrent.Executor;
 
 /**
  * Created by mateuszl on 22.09.2016.
  */
+@EnableAsync
 @EnableDiscoveryClient
 @SpringBootApplication
-public class InterworkingInterfaceApplication {
+public class InterworkingInterfaceApplication extends AsyncConfigurerSupport {
 
 	private static Log log = LogFactory.getLog(InterworkingInterfaceApplication.class);
 
@@ -38,12 +42,24 @@ public class InterworkingInterfaceApplication {
         } catch (Exception e) {
             log.error("Error occured during subscribing from Interworking Interface", e);
         }
+
     }
 
-    @Bean
-    public AlwaysSampler defaultSampler() {
-        return new AlwaysSampler();
+    @Override
+    public Executor getAsyncExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(2);
+        executor.setMaxPoolSize(2);
+        executor.setQueueCapacity(500);
+        executor.setThreadNamePrefix("InterworkingInterfaceApplication-");
+        executor.initialize();
+        return executor;
     }
+
+    // @Bean
+    // public AlwaysSampler defaultSampler() {
+    //     return new AlwaysSampler();
+    // }
 
     @Bean
     AsyncRestTemplate asyncRestTemplate() {
@@ -103,4 +119,45 @@ public class InterworkingInterfaceApplication {
 
         return asyncRabbitTemplate;
     }
+
+
+
+
+
+
+    // @Bean
+    // public Queue queue() {
+    //     return new Queue("symbIoTe-exampleComponent-getexample", false);
+    // }
+
+    // @Bean
+    // public TopicExchange exchange() {
+    //     return new  TopicExchange("symbIoTe.exampleComponent");
+    // }
+
+    // @Bean
+    // public Binding binding() {
+    //     return BindingBuilder.bind(queue()).to(exchange()).with("symbIoTe.exampleComponent.getexample");
+
+    // }
+
+    // @Bean
+    // public SimpleMessageListenerContainer remoteContainer(ConnectionFactory connectionFactory) {
+
+    //     SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+           
+    //     container.setConnectionFactory(connectionFactory);
+    //     container.setQueueNames("symbIoTe-exampleComponent-getexample");        
+    //     container.setMessageListener(
+    //         new MessageListenerAdapter((ReplyingMessageListener<JSONObject, JSONObject>)
+    //             message -> {
+    //                             log.info("The received message is: " + message);
+    //                             // String value = message.get("value");
+    //                             message.put("value", "value.toUpperCase()");
+    //                             return message;
+    //                        }));
+
+    //     return container;
+
+    // }
 }
