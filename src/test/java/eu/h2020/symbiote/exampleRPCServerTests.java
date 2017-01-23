@@ -73,7 +73,6 @@ public class exampleRPCServerTests {
                     log.info("Server woke up!!!!!!");
                     return withStatus(HttpStatus.OK).body("{ \"name\" : \"" + example.toUpperCase() + "\"}").contentType(MediaType.APPLICATION_JSON).createResponse(request);
                 });
-            // .andRespond(withSuccess("{ \"name\" : \"" + example.toUpperCase() + "\"}", MediaType.APPLICATION_JSON));
 
         query.put("name", example);
 

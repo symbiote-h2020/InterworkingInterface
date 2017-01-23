@@ -49,30 +49,11 @@ public class ExampleController {
         RabbitConverterFuture<JSONObject> future = asyncRabbitTemplate.convertSendAndReceive(exchangeName, routingKey, query);
 
         log.info("After publishing the message to the queue");
-
-        future.addCallback(new ListenableFutureCallback<JSONObject>() {
-
-            @Override
-            public void onSuccess(JSONObject result) {
-
-                log.info("Successfully received response: " + result);
-                ResponseEntity<JSONObject> responseEntity = 
-                            new ResponseEntity<>(result, HttpStatus.OK);
-                deferredResult.setResult(responseEntity);
-
-            }
-
-            @Override
-            public void onFailure(Throwable ex) {
-                log.info("Failed to receive response");
-                ResponseEntity<Void> responseEntity = 
-                            new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
-                deferredResult.setResult(responseEntity);
-            }
-
-        });
         
-      
+        RabbitMQCallback<JSONObject> callback = new RabbitMQCallback<JSONObject> ("ExampleControllerCallback", deferredResult);
+
+        future.addCallback(callback);
+           
         return deferredResult;
     }
 }

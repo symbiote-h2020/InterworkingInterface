@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
+// import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 
@@ -50,10 +50,10 @@ public class InterworkingInterfaceApplication extends AsyncConfigurerSupport {
         return executor;
     }
 
-    @Bean
-    public AlwaysSampler defaultSampler() {
-        return new AlwaysSampler();
-    }
+    // @Bean
+    // public AlwaysSampler defaultSampler() {
+    //     return new AlwaysSampler();
+    // }
 
     @Bean
     AsyncRestTemplate asyncRestTemplate() {

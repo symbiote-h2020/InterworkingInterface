@@ -49,52 +49,15 @@ public class ExampleRPCServer {
     public void exampleInterface(JSONObject jsonObject, @Headers() Map<String, String> headers) {
   
         log.info("Received message: " + jsonObject);
-        log.info(headers);
 
         // The AsyncRestTemplate method should change according to the request
-        ListenableFuture<ResponseEntity<JSONObject>> exampleQuery = asyncRestTemplate.getForEntity("http://www.example.com", JSONObject.class);
+        ListenableFuture<ResponseEntity<JSONObject>> future = asyncRestTemplate.getForEntity("http://www.example.com", JSONObject.class);
 
-        exampleQuery.addCallback(
-                new ListenableFutureCallback<ResponseEntity<JSONObject>>() {
-
-                    private Map<String, String> headers;
-                    private ListenableFuture<ResponseEntity<JSONObject>> future;
-                    private RabbitTemplate rabbitTemplate;
-
-                    @Override
-                    public void onSuccess(ResponseEntity<JSONObject> result) {
-                        log.info("Successfully received response from server: " + result);
-                        rabbitTemplate.convertAndSend(headers.get("amqp_replyTo"), result.getBody(),
-                            m -> {
-                                    m.getMessageProperties().setCorrelationIdString(headers.get("amqp_correlationId"));
-                                    return m;
-                                 });
-                    }
- 
-                    @Override
-                    public void onFailure(Throwable t) {
-                        log.info("Failed to fetch result from remote service", t);
-                        JSONObject newObject = new JSONObject();
-                        newObject.put("exception", t);
-
-                        rabbitTemplate.convertAndSend(headers.get("amqp_replyTo"), newObject,
-                            m -> {
-                                    m.getMessageProperties().setCorrelationIdString(headers.get("amqp_correlationId"));
-                                    return m;
-                                 });
-                    }
-
-                    private ListenableFutureCallback<ResponseEntity<JSONObject>> init(Map<String, String> messageHeaders, 
-                             ListenableFuture<ResponseEntity<JSONObject>> futureObject, RabbitTemplate template) {
-                        headers = messageHeaders;
-                        future = futureObject;
-                        rabbitTemplate = template;
-                        return this;
-                    }
-                }.init(headers, exampleQuery, rabbitTemplate) 
-        );
+        RestAPICallback<ResponseEntity<JSONObject>> callback = 
+             new RestAPICallback<ResponseEntity<JSONObject>> ("ExampleRPCServerCallback", headers, future, rabbitTemplate);
+        future.addCallback(callback);
         
-        futuresQueue.add(exampleQuery);
+        futuresQueue.add(future);
 
     }
 }
