@@ -64,7 +64,7 @@ public class ExampleController {
 
             @Override
             public void onFailure(Throwable ex) {
-                log.info("Did not receive response");
+                log.info("Failed to receive response");
                 ResponseEntity<Void> responseEntity = 
                             new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
                 deferredResult.setResult(responseEntity);
@@ -72,103 +72,7 @@ public class ExampleController {
 
         });
         
-        log.info("Servlet thread released with future.isDone() = " + future.isDone());
-
-        // Remove
-        //  ResponseEntity<JSONObject> responseEntity = 
-        //                 new ResponseEntity<>(query, HttpStatus.OK);        
-        // deferredResult.setResult(responseEntity);
-
-        
+      
         return deferredResult;
     }
-
-
-    @GetMapping(value="/testRabbitMQ")
-    @ResponseBody
-    public void testRabbitMQ() throws Exception {
-
-        JSONObject query = new JSONObject();
-        final AtomicReference<JSONObject> resultRef = new AtomicReference<JSONObject>();
-        String example = "example";
-
-        query.put("name", example);
-
-        String exchangeName = "symbIoTe.InterworkingInterface";
-        String routingKey = "symbIoTe.InterworkingInterface.component.example";
-
-        log.info("Before publishing the message to the queue");
-
-        RabbitConverterFuture<JSONObject> future = asyncRabbitTemplate.convertSendAndReceive(exchangeName, routingKey, query);
-
-        log.info("After publishing the message to the queue");
-
-        future.addCallback(new ListenableFutureCallback<JSONObject>() {
-
-            @Override
-            public void onSuccess(JSONObject result) {
-
-                log.info("Successful response in testRabbitMQ: " + result);
-                resultRef.set(result);
-
-            }
-
-            @Override
-            public void onFailure(Throwable ex) {
-                log.info("Did not receive any response in testRabbitMQ");
-            }
-
-        });
-
-        log.info("testRabbitMQ end");
-
-    }
 }
-
-    // @GetMapping(value="/example/{value}")
-    // @ResponseBody
-    // public ResponseEntity<JSONObject> getExample(@PathVariable String value) throws Exception {
-
-    //     JSONObject query = new JSONObject();
-    //     final AtomicReference<JSONObject> resultRef = new AtomicReference<JSONObject>();
-
-    //     query.put("value", value);
-
-    //     String exchangeName = "symbIoTe.exampleComponent";
-    //     String routingKey = "symbIoTe.exampleComponent.getexample";
-
-    //     RabbitConverterFuture<JSONObject> future = asyncRabbitTemplate.convertSendAndReceive(exchangeName, routingKey, query);
-
-    //     log.info("After publishing the message to the queue");
-
-    //     future.addCallback(new ListenableFutureCallback<JSONObject>() {
-
-    //         @Override
-    //         public void onSuccess(JSONObject result) {
-
-    //             log.info("Successfully received response: " + result);
-    //             resultRef.set(result);
-
-    //         }
-
-    //         @Override
-    //         public void onFailure(Throwable ex) {
-    //             log.info("Did not receive response");
-    //             JSONObject result = new JSONObject();      
-    //             query.put("error", ex.toString());
-    //             resultRef.set(query);
-    //         }
-
-    //     });
-        
-    //     log.info("future 1st check: " + future.isDone());
-    //     while (!(future.isDone()))
-    //         Thread.sleep(10);
-        
-    //     log.info("future 2nd check: " + future.isDone());
-    //     TimeUnit.SECONDS.sleep(2);
-    //     log.info("future 3rd check: " + future.isDone());
-
-
-    //     return new ResponseEntity<JSONObject>(resultRef.get(), HttpStatus.OK);
-    // }

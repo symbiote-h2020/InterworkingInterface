@@ -64,11 +64,6 @@ public class ExampleRPCServer {
                     @Override
                     public void onSuccess(ResponseEntity<JSONObject> result) {
                         log.info("Successfully received response from server: " + result);
-                        log.info("Headers inside the future: " + headers);
-                        log.info("Queue size 2= " + futuresQueue.size());
-                        log.info("Object removed =  " + futuresQueue.remove(future));
-                        log.info(futuresQueue.toArray() + " this = " + future);
-                        log.info("Queue size 3= " + futuresQueue.size());
                         rabbitTemplate.convertAndSend(headers.get("amqp_replyTo"), result.getBody(),
                             m -> {
                                     m.getMessageProperties().setCorrelationIdString(headers.get("amqp_correlationId"));
@@ -79,8 +74,14 @@ public class ExampleRPCServer {
                     @Override
                     public void onFailure(Throwable t) {
                         log.info("Failed to fetch result from remote service", t);
-                        ResponseEntity<JSONObject> responseEntity = 
-                            new ResponseEntity<JSONObject>(new JSONObject(), HttpStatus.SERVICE_UNAVAILABLE);
+                        JSONObject newObject = new JSONObject();
+                        newObject.put("exception", t);
+
+                        rabbitTemplate.convertAndSend(headers.get("amqp_replyTo"), newObject,
+                            m -> {
+                                    m.getMessageProperties().setCorrelationIdString(headers.get("amqp_correlationId"));
+                                    return m;
+                                 });
                     }
 
                     private ListenableFutureCallback<ResponseEntity<JSONObject>> init(Map<String, String> messageHeaders, 
@@ -94,59 +95,7 @@ public class ExampleRPCServer {
         );
         
         futuresQueue.add(exampleQuery);
-        log.info("Queue size = " + futuresQueue.size());
 
     }
-
-
-    // @RabbitListener(bindings = @QueueBinding(
-    //     value = @Queue(value = "symbIoTe-exampleComponent-getexample", durable = "false", autoDelete = "true", exclusive = "true"),
-    //     exchange = @Exchange(value = "symbIoTe.exampleComponent", ignoreDeclarationExceptions = "true", type = ExchangeTypes.DIRECT),
-    //     key = "symbIoTe.exampleComponent.getexample")
-    // )
-    // public JSONObject getExampleListener(JSONObject jsonObject) throws Exception {
-    
-    //     log.info("getExampleListener received message: " + jsonObject);
-
-    //     String value = jsonObject.get("value").toString();
-    //     jsonObject.put("value", value.toUpperCase());
-
-    //     TimeUnit.SECONDS.sleep(1);
-    //     return jsonObject;
-    // }
-
-    // @RabbitListener(bindings = @QueueBinding(
-    //     value = @Queue(value = "symbIoTe-InterworkingInterface-component-example", durable = "true", autoDelete = "false", exclusive = "false"),
-    //     exchange = @Exchange(value = "symbIoTe.InterworkingInterface", ignoreDeclarationExceptions = "true", type = ExchangeTypes.DIRECT),
-    //     key = "symbIoTe.InterworkingInterface.component.example")
-    // )
-    // public DeferredResult<JSONObject> exampleInterface(JSONObject jsonObject) {
-
-    //     DeferredResult<JSONObject> deferredResult = new DeferredResult<>();
-        
-    //     log.info("Received message: " + jsonObject);
-
-    //     // The AsyncRestTemplate method should change according to the request
-    //     ListenableFuture<ResponseEntity<JSONObject>> exampleQuery = asyncRestTemplate.getForEntity("http://localhost:8101/example/example/bill", JSONObject.class);
-    //     exampleQuery.addCallback(
-    //             new ListenableFutureCallback<ResponseEntity<JSONObject>>() {
-    //                 @Override
-    //                 public void onSuccess(ResponseEntity<JSONObject> result) {
-    //                     log.info("Successfully received response from server: " + result);
-    //                     deferredResult.setResult(result.getBody());
-    //                 }
- 
-    //                 @Override
-    //                 public void onFailure(Throwable t) {
-    //                     log.info("Failed to fetch result from remote service", t);
-    //                     deferredResult.setResult(new JSONObject());
-    //                 }
-    //             }
-    //     );
-
-    //     log.info("Returning result");
-
-    //     return deferredResult;
-    // }
 }
 
