@@ -15,7 +15,7 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.json.simple.JSONObject;
 
 import java.util.Map;
-
+import java.util.Queue;
 
 public class RestAPICallback<T> implements ListenableFutureCallback<T> {
 
@@ -25,9 +25,10 @@ public class RestAPICallback<T> implements ListenableFutureCallback<T> {
     private Map<String, String> headers;
     private ListenableFuture<ResponseEntity<JSONObject>> future;
     private RabbitTemplate rabbitTemplate;
+    private Queue<ListenableFuture<ResponseEntity<JSONObject>>> futuresQueue;
 
 
-    public RestAPICallback(String request, Map<String, String> headers, 
+    public RestAPICallback(String request, Map<String, String> headers, Queue<ListenableFuture<ResponseEntity<JSONObject>>> futuresQueue,
             ListenableFuture<ResponseEntity<JSONObject>> future, RabbitTemplate rabbitTemplate) {
         this.request = request;
         this.headers = headers;    
@@ -38,27 +39,31 @@ public class RestAPICallback<T> implements ListenableFutureCallback<T> {
 
     @Override
     public void onSuccess(T result) {
-                        ResponseEntity responseEntity = (ResponseEntity) result;
-                        log.info(request + ": Successfully received response from server: " + result);
-                        rabbitTemplate.convertAndSend(headers.get("amqp_replyTo"), responseEntity.getBody(),
-                            m -> {
-                                    m.getMessageProperties().setCorrelationIdString(headers.get("amqp_correlationId"));
-                                    return m;
-                                 });
+        ResponseEntity responseEntity = (ResponseEntity) result;
+        log.info(request + ": Successfully received response from server: " + result);
+
+        rabbitTemplate.convertAndSend(headers.get("amqp_replyTo"), responseEntity.getBody(),
+            m -> {
+                    m.getMessageProperties().setCorrelationIdString(headers.get("amqp_correlationId"));
+                    return m;
+                });
+        futuresQueue.remove(future);
     }
  
 
     @Override
     public void onFailure(Throwable t) {
-                        log.info(request + ": Failed to fetch result from remote service", t);
-                        JSONObject newObject = new JSONObject();
-                        newObject.put("exception", t);
+        log.info(request + ": Failed to fetch result from remote service", t);
+        JSONObject newObject = new JSONObject();
+        newObject.put("exception", t);
 
-                        rabbitTemplate.convertAndSend(headers.get("amqp_replyTo"), newObject,
-                            m -> {
-                                    m.getMessageProperties().setCorrelationIdString(headers.get("amqp_correlationId"));
-                                    return m;
-                                 });
+        rabbitTemplate.convertAndSend(headers.get("amqp_replyTo"), newObject,
+            m -> {
+                    m.getMessageProperties().setCorrelationIdString(headers.get("amqp_correlationId"));
+                    return m;
+                });
+
+        futuresQueue.remove(future);
     }
 }
 

@@ -54,7 +54,7 @@ public class ExampleRPCServer {
         ListenableFuture<ResponseEntity<JSONObject>> future = asyncRestTemplate.getForEntity("http://www.example.com", JSONObject.class);
 
         RestAPICallback<ResponseEntity<JSONObject>> callback = 
-             new RestAPICallback<ResponseEntity<JSONObject>> ("ExampleRPCServerCallback", headers, future, rabbitTemplate);
+             new RestAPICallback<ResponseEntity<JSONObject>> ("ExampleRPCServerCallback", headers, futuresQueue, future, rabbitTemplate);
         future.addCallback(callback);
         
         futuresQueue.add(future);
