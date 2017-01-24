@@ -16,6 +16,10 @@ import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpEntity;
 
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
@@ -49,11 +53,17 @@ public class RegistrationHandlerRPCServer {
     public void resourceRegistration(JSONObject jsonObject, @Headers() Map<String, String> headers) {
 
         String message = "register_resources";
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(jsonObject.toString(), httpHeaders);        
+
         log.info("Received " + message + " message: "+ jsonObject);
 
         // The AsyncRestTemplate method should change according to the request
         // Change url
-        ListenableFuture<ResponseEntity<JSONObject>> future = asyncRestTemplate.getForEntity("http://www.example.com/" + message, JSONObject.class);
+        ListenableFuture<ResponseEntity<JSONObject>> future = asyncRestTemplate.exchange(
+            "http://www.example.com/" + message, HttpMethod.POST, entity, JSONObject.class);
 
         RestAPICallback<ResponseEntity<JSONObject>> callback = 
             new RestAPICallback<ResponseEntity<JSONObject>> (message, headers, futuresQueue, future, rabbitTemplate);
@@ -71,11 +81,17 @@ public class RegistrationHandlerRPCServer {
     public void resourceUnregistration(JSONObject jsonObject, @Headers() Map<String, String> headers) {
   
         String message = "unregister_resources";
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(jsonObject.toString(), httpHeaders); 
+
         log.info("Received " + message + " message: "+ jsonObject);
 
         // The AsyncRestTemplate method should change according to the request
         // Change url
-        ListenableFuture<ResponseEntity<JSONObject>> future = asyncRestTemplate.getForEntity("http://www.example.com/" + message, JSONObject.class);
+        ListenableFuture<ResponseEntity<JSONObject>> future = asyncRestTemplate.exchange(
+            "http://www.example.com/" + message, HttpMethod.DELETE, entity, JSONObject.class);
 
         RestAPICallback<ResponseEntity<JSONObject>> callback = 
             new RestAPICallback<ResponseEntity<JSONObject>> (message, headers, futuresQueue, future, rabbitTemplate);
@@ -93,11 +109,18 @@ public class RegistrationHandlerRPCServer {
     public void resourceUpdate(JSONObject jsonObject, @Headers() Map<String, String> headers) {
   
         String message = "update_resources";
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(jsonObject.toString(), httpHeaders); 
+
         log.info("Received " + message + " message: "+ jsonObject);
 
         // The AsyncRestTemplate method should change according to the request
         // Change url
-        ListenableFuture<ResponseEntity<JSONObject>> future = asyncRestTemplate.getForEntity("http://www.example.com/" + message, JSONObject.class);
+        // ListenableFuture<ResponseEntity<JSONObject>> future = asyncRestTemplate.getForEntity("http://www.example.com/" + message, JSONObject.class);
+        ListenableFuture<ResponseEntity<JSONObject>> future = asyncRestTemplate.exchange(
+            "http://www.example.com/" + message, HttpMethod.PUT, entity, JSONObject.class);
 
         RestAPICallback<ResponseEntity<JSONObject>> callback = 
             new RestAPICallback<ResponseEntity<JSONObject>> (message, headers, futuresQueue, future, rabbitTemplate);
