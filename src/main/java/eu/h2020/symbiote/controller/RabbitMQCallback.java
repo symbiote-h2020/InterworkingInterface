@@ -8,8 +8,6 @@ import org.apache.commons.logging.LogFactory;
 
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
-import org.json.simple.JSONObject;
-
 import org.springframework.web.context.request.async.DeferredResult;
 
 
@@ -32,10 +30,11 @@ public class RabbitMQCallback<T> implements ListenableFutureCallback<T> {
     public void onSuccess(T result) {
 
         log.info(request + ": Successfully received response = " + result);
-        ResponseEntity<T> responseEntity = 
-                    new ResponseEntity<>(result, HttpStatus.OK);
-        deferredResult.setResult(responseEntity);
-
+        // ResponseEntity<T> responseEntity = 
+        //             new ResponseEntity<>(result, HttpStatus.OK);
+        // deferredResult.setResult(responseEntity);
+ 
+        deferredResult.setResult(result);
     }
 
 

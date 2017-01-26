@@ -53,13 +53,13 @@
 // // @ContextConfiguration
 // @RunWith(SpringJUnit4ClassRunner.class)
 // @SpringBootTest({"webEnvironment=WebEnvironment.RANDOM_PORT", "eureka.client.enabled=false", "spring.cloud.sleuth.enabled=false"})
-// public class ExampleControllerTests {
+// public class InterworkingInterfaceControllerTests {
 
 
-// 	private static final Logger log = LoggerFactory
-// 						.getLogger(ExampleControllerTests.class);
+//     private static final Logger log = LoggerFactory
+//                         .getLogger(InterworkingInterfaceControllerTests.class);
 
-//     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+//     private MediaType json = new MediaType(MediaType.APPLICATION_JSON.getType(),
 //             MediaType.APPLICATION_JSON.getSubtype(),
 //             Charset.forName("utf8"));
 
@@ -68,49 +68,33 @@
 
 //     private MockMvc mockMvc;
 
-// 	// Execute the Setup method before the test.
-// 	@Before
-// 	public void setUp() throws Exception {
+//     // Execute the Setup method before the test.
+//     @Before
+//     public void setUp() throws Exception {
 
-// 		mockMvc = webAppContextSetup(webApplicationContext).build();
+//         mockMvc = webAppContextSetup(webApplicationContext).build();
 
 
-// 	}
-
-// 	@Test
-// 	// @DisplayName("Testing Access Controller's GET method")
-// 	public void testGet() throws Exception {
-
-//         String value = "getexample";
-
-// 		MvcResult mvcResult = mockMvc.perform(get("/example/example/" + value))
-// 			.andExpect(status().isOk())
-// 			.andExpect(request().asyncStarted())
-// 			.andReturn();
-
-// 		mvcResult = mockMvc.perform(asyncDispatch(mvcResult))
-// 			.andExpect(status().isOk())
-// 			.andExpect(content().contentType(contentType))
-//             .andExpect(jsonPath("$.value", is(value.toUpperCase())))
-//             .andReturn();
-            
-//         log.info("MvcResult is: " + mvcResult.getResponse().getContentAsString());
-
-// 	}
-
-//     @RabbitListener(bindings = @QueueBinding(
-//         value = @Queue(value = "symbIoTe-exampleComponent-getexample", durable = "false", autoDelete = "true", exclusive = "true"),
-//         exchange = @Exchange(value = "symbIoTe.exampleComponent", ignoreDeclarationExceptions = "true", type = ExchangeTypes.DIRECT),
-//         key = "symbIoTe.exampleComponent.getexample")
-//     )
-//     public JSONObject getExampleListener(JSONObject jsonObject) {
-    
-//         log.info("Received message: " + jsonObject);
-
-//         String value = jsonObject.get("value").toString();
-//         jsonObject.put("value", value.toUpperCase());
-
-//         return jsonObject;
 //     }
+
+//     @Test
+//     public void testUpdatePlatformId() throws Exception {
+
+//     //     String id = "1";
+
+//     //     MvcResult mvcResult = mockMvc.perform(get("/rap/resource/" + id))
+//     //         .andExpect(status().isOk())
+//     //         .andExpect(request().asyncStarted())
+//     //         .andReturn();
+
+//     //     mvcResult = mockMvc.perform(asyncDispatch(mvcResult))
+//     //         .andExpect(status().isOk())
+//     //         .andExpect(content().contentType(json))
+//     //         .andExpect(jsonPath("$.value", is("1")))
+//     //         .andReturn();
+            
+//     //     log.info("MvcResult is: " + mvcResult.getResponse().getContentAsString());
+
+//     // }
 
 // }

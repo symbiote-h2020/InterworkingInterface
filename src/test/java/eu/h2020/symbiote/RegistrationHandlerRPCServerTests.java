@@ -48,7 +48,7 @@ public class RegistrationHandlerRPCServerTests {
     @Autowired    
     private AsyncRabbitTemplate asyncRabbitTemplate;
 
-    @Autowired
+    @Autowired    
     AsyncRestTemplate asyncRestTemplate;
 
     @Value("${symbIoTeCoreUrl}")
@@ -62,9 +62,8 @@ public class RegistrationHandlerRPCServerTests {
 	// Execute the Setup method before the test.
 	@Before
 	public void setUp() throws Exception {
-    
         mockServer = MockRestServiceServer.createServer(asyncRestTemplate);
-
+        
 	}
 
 	@Test
