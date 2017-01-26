@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Value;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ import java.util.concurrent.Executor;
 public class InterworkingInterfaceApplication extends AsyncConfigurerSupport {
 
 	private static Log log = LogFactory.getLog(InterworkingInterfaceApplication.class);
+
+    @Value("${symbIoTeCoreUrl}")
+    private String symbIoTeCoreUrl; 
 
 	public static void main(String[] args) {
 		SpringApplication.run(InterworkingInterfaceApplication.class, args);

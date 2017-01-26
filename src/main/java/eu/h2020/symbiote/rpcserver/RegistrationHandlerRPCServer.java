@@ -3,6 +3,7 @@ package eu.h2020.symbiote.rpcserver;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -29,6 +30,7 @@ import org.json.simple.JSONObject;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.Map;
+import java.util.ArrayList;
 
 
 @Service
@@ -42,6 +44,12 @@ public class RegistrationHandlerRPCServer {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    @Value("${symbIoTeCoreUrl}")    
+    private String symbIoTeCoreUrl;
+
+    @Value("${platformId}")    
+    private String platformId;
+
     private final java.util.Queue<ListenableFuture<ResponseEntity<JSONObject>>> futuresQueue = 
                   new ConcurrentLinkedQueue<ListenableFuture<ResponseEntity<JSONObject>>>();
 
@@ -53,17 +61,17 @@ public class RegistrationHandlerRPCServer {
     public void resourceRegistration(JSONObject jsonObject, @Headers() Map<String, String> headers) {
 
         String message = "register_resources";
+        String url = symbIoTeCoreUrl + "platforms/" + platformId + "/resources";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(jsonObject.toString(), httpHeaders);        
 
         log.info("Received " + message + " message: "+ jsonObject);
-
         // The AsyncRestTemplate method should change according to the request
         // Change url
         ListenableFuture<ResponseEntity<JSONObject>> future = asyncRestTemplate.exchange(
-            "http://www.example.com/" + message, HttpMethod.POST, entity, JSONObject.class);
+            url, HttpMethod.POST, entity, JSONObject.class);
 
         RestAPICallback<ResponseEntity<JSONObject>> callback = 
             new RestAPICallback<ResponseEntity<JSONObject>> (message, headers, futuresQueue, future, rabbitTemplate);
@@ -78,20 +86,21 @@ public class RegistrationHandlerRPCServer {
         exchange = @Exchange(value = "symbIoTe.InterworkingInterface", ignoreDeclarationExceptions = "true", type = ExchangeTypes.DIRECT),
         key = "symbIoTe.InterworkingInterface.registrationHandler.unregister_resources")
     )
-    public void resourceUnregistration(JSONObject jsonObject, @Headers() Map<String, String> headers) {
+    public void resourceUnregistration(String id, @Headers() Map<String, String> headers) {
   
         String message = "unregister_resources";
+        String url = symbIoTeCoreUrl + "platforms/" + platformId + "/resources/" + id;
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> entity = new HttpEntity<>(jsonObject.toString(), httpHeaders); 
+        HttpEntity<String> entity = new HttpEntity<>(httpHeaders); 
 
-        log.info("Received " + message + " message: "+ jsonObject);
+        log.info("Received " + message + " message: "+ id);
 
         // The AsyncRestTemplate method should change according to the request
         // Change url
         ListenableFuture<ResponseEntity<JSONObject>> future = asyncRestTemplate.exchange(
-            "http://www.example.com/" + message, HttpMethod.DELETE, entity, JSONObject.class);
+            url, HttpMethod.DELETE, entity, JSONObject.class);
 
         RestAPICallback<ResponseEntity<JSONObject>> callback = 
             new RestAPICallback<ResponseEntity<JSONObject>> (message, headers, futuresQueue, future, rabbitTemplate);
@@ -109,6 +118,8 @@ public class RegistrationHandlerRPCServer {
     public void resourceUpdate(JSONObject jsonObject, @Headers() Map<String, String> headers) {
   
         String message = "update_resources";
+        Integer id = (Integer)jsonObject.get("id");
+        String url = symbIoTeCoreUrl + "platforms/" + platformId + "/resources/" + id;
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -118,9 +129,8 @@ public class RegistrationHandlerRPCServer {
 
         // The AsyncRestTemplate method should change according to the request
         // Change url
-        // ListenableFuture<ResponseEntity<JSONObject>> future = asyncRestTemplate.getForEntity("http://www.example.com/" + message, JSONObject.class);
         ListenableFuture<ResponseEntity<JSONObject>> future = asyncRestTemplate.exchange(
-            "http://www.example.com/" + message, HttpMethod.PUT, entity, JSONObject.class);
+            url, HttpMethod.PUT, entity, JSONObject.class);
 
         RestAPICallback<ResponseEntity<JSONObject>> callback = 
             new RestAPICallback<ResponseEntity<JSONObject>> (message, headers, futuresQueue, future, rabbitTemplate);

@@ -8,6 +8,7 @@ import org.junit.Before;
 
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.amqp.rabbit.AsyncRabbitTemplate;
@@ -50,6 +51,12 @@ public class RegistrationHandlerRPCServerTests {
     @Autowired
     AsyncRestTemplate asyncRestTemplate;
 
+    @Value("${symbIoTeCoreUrl}")
+    private String symbIoTeCoreUrl;
+
+    @Value("${platformId}")    
+    private String platformId;
+
     private MockRestServiceServer mockServer;
 
 	// Execute the Setup method before the test.
@@ -60,129 +67,18 @@ public class RegistrationHandlerRPCServerTests {
 
 	}
 
-	// @Test
-	// public void resourceRegistrationTest() throws Exception {
-
- //        final AtomicReference<JSONObject> resultRef = new AtomicReference<JSONObject>();
- //        String message = "register_resources";
- //        String exchangeName = "symbIoTe.InterworkingInterface";
- //        String routingKey = exchangeName + ".registrationHandler." + message;
- //        JSONObject location = newLocation();
- //        JSONObject resource = newResource(location);
-
- //        mockServer.expect(requestTo("http://www.example.com/" + message)).andExpect(method(HttpMethod.POST))
- //                .andRespond(request -> {
- //                    try {
- //                        Thread.sleep(TimeUnit.SECONDS.toMillis(2)); // Delay
- //                    } catch (InterruptedException ignored) {}
-
- //                    JSONParser parser = new JSONParser();
- //                    JSONObject response = new JSONObject();
-
- //                    try {
- //                        response = (JSONObject) parser.parse(request.getBody().toString());
-
- //                    } catch (Exception ignored) {}
-
- //                    response.put("symbioteId", response.get("internalId"));
- //                    log.info(message + "_test: Server woke up and will answer with " + response);
-
- //                    return withStatus(HttpStatus.OK).body(response.toString()).contentType(MediaType.APPLICATION_JSON).createResponse(request);
- //                });
-
-
- //        RabbitConverterFuture<JSONObject> future = asyncRabbitTemplate.convertSendAndReceive(exchangeName, routingKey, resource);
-
- //        future.addCallback(new ListenableFutureCallback<JSONObject>() {
-
- //            @Override
- //            public void onSuccess(JSONObject result) {
-
- //                log.info(message + "_test: Successful response = " + result);
- //                resultRef.set(result);
-
- //            }
-
- //            @Override
- //            public void onFailure(Throwable ex) {
- //                fail(message + "_test: Did not receive any response");
- //            }
-
- //        });
-
- //        while(!future.isDone())
- //            TimeUnit.SECONDS.sleep(1);
-
- //        JSONObject response = resultRef.get();
- //        assertEquals(response.get("internalId"), resource.get("internalId"));
-	// }
-
-    // @Test
-    // public void resourceUnregistrationTest() throws Exception {
-
-    //     final AtomicReference<JSONObject> resultRef = new AtomicReference<JSONObject>();
-    //     String message = "unregister_resources";
-    //     String exchangeName = "symbIoTe.InterworkingInterface";
-    //     String routingKey = exchangeName + ".registrationHandler." + message;
-    //     JSONObject resources = new JSONObject();
-    //     List<Integer> idList = Arrays.asList(1,  2);
-
-    //     resources.put("idList", idList);
-
-    //     mockServer.expect(requestTo("http://www.example.com/" + message)).andExpect(method(HttpMethod.DELETE))
-    //             .andRespond(request -> {
-    //                 try {
-    //                     Thread.sleep(TimeUnit.SECONDS.toMillis(2)); // Delay
-    //                 } catch (InterruptedException ignored) {}
-
-    //                 JSONObject response = new JSONObject();
-    //                 List<Integer> idList2 = Arrays.asList(-1,  2);
-
-    //                 response.put("idList", idList2);
-    //                 log.info(message + "_test: Server woke up!!!!!! " + response);
-
-    //                 return withStatus(HttpStatus.OK).body(response.toString()).contentType(MediaType.APPLICATION_JSON).createResponse(request);
-    //             });
-
-
-    //     RabbitConverterFuture<JSONObject> future = asyncRabbitTemplate.convertSendAndReceive(exchangeName, routingKey, resources);
-
-    //     future.addCallback(new ListenableFutureCallback<JSONObject>() {
-
-    //         @Override
-    //         public void onSuccess(JSONObject result) {
-
-    //             log.info(message + "_test: Successful response = " + result);
-    //             resultRef.set(result);
-
-    //         }
-
-    //         @Override
-    //         public void onFailure(Throwable ex) {
-    //             fail(message + "_test: Did not receive any response");
-    //         }
-
-    //     });
-
-    //     while(!future.isDone())
-    //         TimeUnit.SECONDS.sleep(1);
-
-    //     JSONObject response = resultRef.get();
-    //     ArrayList ids = (ArrayList) response.get("idList");
-    //     assertEquals(ids.get(0), -1);
-    // }
-
-    @Test
-    public void resourceUpdateTest() throws Exception {
+	@Test
+	public void resourceRegistrationTest() throws Exception {
 
         final AtomicReference<JSONObject> resultRef = new AtomicReference<JSONObject>();
-        String message = "update_resources";
+        String message = "register_resources";
         String exchangeName = "symbIoTe.InterworkingInterface";
         String routingKey = exchangeName + ".registrationHandler." + message;
+        String url = symbIoTeCoreUrl + "platforms/" + platformId + "/resources";
         JSONObject location = newLocation();
         JSONObject resource = newResource(location);
-
-        mockServer.expect(requestTo("http://www.example.com/" + message)).andExpect(method(HttpMethod.PUT))
+        
+        mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
                 .andRespond(request -> {
                     try {
                         Thread.sleep(TimeUnit.SECONDS.toMillis(2)); // Delay
@@ -196,7 +92,119 @@ public class RegistrationHandlerRPCServerTests {
 
                     } catch (Exception ignored) {}
 
-                    response.put("symbioteId", response.get("internalId"));
+                    response.put("id", response.get("internalId"));
+                    log.info(message + "_test: Server woke up and will answer with " + response);
+
+                    return withStatus(HttpStatus.OK).body(response.toString()).contentType(MediaType.APPLICATION_JSON).createResponse(request);
+                });
+
+
+        RabbitConverterFuture<JSONObject> future = asyncRabbitTemplate.convertSendAndReceive(exchangeName, routingKey, resource);
+
+        future.addCallback(new ListenableFutureCallback<JSONObject>() {
+
+            @Override
+            public void onSuccess(JSONObject result) {
+
+                log.info(message + "_test: Successful response = " + result);
+                resultRef.set(result);
+
+            }
+
+            @Override
+            public void onFailure(Throwable ex) {
+                fail(message + "_test: Did not receive any response");
+            }
+
+        });
+
+        while(!future.isDone())
+            TimeUnit.SECONDS.sleep(1);
+
+        JSONObject response = resultRef.get();
+        assertEquals(response.get("internalId"), resource.get("internalId"));
+	}
+
+    @Test
+    public void resourceUnregistrationTest() throws Exception {
+
+        final AtomicReference<JSONObject> resultRef = new AtomicReference<JSONObject>();
+        String message = "unregister_resources";
+        String exchangeName = "symbIoTe.InterworkingInterface";
+        String routingKey = exchangeName + ".registrationHandler." + message;
+        String id = "1";
+        String url = symbIoTeCoreUrl + "platforms/" + platformId + "/resources/" + id;
+
+
+        mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.DELETE))
+                .andRespond(request -> {
+                    try {
+                        Thread.sleep(TimeUnit.SECONDS.toMillis(2)); // Delay
+                    } catch (InterruptedException ignored) {}
+
+                    JSONObject location = newLocation();
+                    JSONObject resource = newResource(location);
+
+                    log.info(message + "_test: Server woke up!!!!!! " + resource);
+
+                    return withStatus(HttpStatus.OK).body(resource.toString()).contentType(MediaType.APPLICATION_JSON).createResponse(request);
+                });
+
+
+        RabbitConverterFuture<JSONObject> future = asyncRabbitTemplate.convertSendAndReceive(exchangeName, routingKey, id);
+
+        future.addCallback(new ListenableFutureCallback<JSONObject>() {
+
+            @Override
+            public void onSuccess(JSONObject result) {
+
+                log.info(message + "_test: Successful response = " + result);
+                resultRef.set(result);
+
+            }
+
+            @Override
+            public void onFailure(Throwable ex) {
+                fail(message + "_test: Did not receive any response");
+            }
+
+        });
+
+        while(!future.isDone())
+            TimeUnit.SECONDS.sleep(1);
+
+        assertEquals(resultRef.get().get("id"), 15);
+    }
+
+    @Test
+    public void resourceUpdateTest() throws Exception {
+
+        final AtomicReference<JSONObject> resultRef = new AtomicReference<JSONObject>();
+        String message = "update_resources";
+        String exchangeName = "symbIoTe.InterworkingInterface";
+        String routingKey = exchangeName + ".registrationHandler." + message;
+        JSONObject location = newLocation();
+        JSONObject resource = newResource(location);
+        Integer id = (Integer) resource.get("id");
+        String url = symbIoTeCoreUrl + "platforms/" + platformId + "/resources/" + id;
+
+        log.info("symbioteurl helppppppppp " + symbIoTeCoreUrl);
+
+        mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.PUT))
+                .andRespond(request -> {
+                    try {
+                        Thread.sleep(TimeUnit.SECONDS.toMillis(2)); // Delay
+                    } catch (InterruptedException ignored) {}
+
+                    JSONParser parser = new JSONParser();
+                    JSONObject response = new JSONObject();
+
+                    try {
+                        response = (JSONObject) parser.parse(request.getBody().toString());
+
+                    } catch (Exception ignored) {}
+
+                    response.put("id", response.get("internalId"));
                     log.info(message + "_test: Server woke up and will answer with " + response);
 
                     return withStatus(HttpStatus.OK).body(response.toString()).contentType(MediaType.APPLICATION_JSON).createResponse(request);
@@ -249,7 +257,7 @@ public class RegistrationHandlerRPCServerTests {
         List<String> observedProperties = Arrays.asList("air", "temp");
 
         resource.put("internalId", 123);
-        resource.put("symbioteId", null);
+        resource.put("id", 15);
         resource.put("name", "resource1");
         resource.put("owner", "localOwner");
         resource.put("description", "somedesc");
