@@ -11,6 +11,16 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.context.request.async.DeferredResult;
 
 
+/**
+* <h1>A Callback for listening to asynchronous RabbitMQ replies</h1>
+* This class extends the ListenableFutureCallback class and uses the
+* DeferredResult class for replying asynchronously to the HTTP Request 
+* received by a controller with the Spring AMQP reply it receives.
+*
+* @author  Vasileios Glykantzis
+* @version 1.0
+* @since   2017-01-26
+*/
 public class RabbitMQCallback<T> implements ListenableFutureCallback<T> {
 
     private static Log log = LogFactory.getLog(RabbitMQCallback.class);
@@ -19,7 +29,12 @@ public class RabbitMQCallback<T> implements ListenableFutureCallback<T> {
 
     private String request;
 
-
+   /**
+   * Constructor of the RabbitMQCallback
+   *
+   * @param request String describing the type of request. Used in logging.
+   * @param deferredResult  The deferredResult which is modified to serve the HTTP request.
+   */
     public RabbitMQCallback(String request, DeferredResult deferredResult) {
         this.request = request;
         this.deferredResult = deferredResult;    
@@ -30,12 +45,10 @@ public class RabbitMQCallback<T> implements ListenableFutureCallback<T> {
     public void onSuccess(T result) {
 
         log.info(request + ": Successfully received response = " + result);
-        // ResponseEntity<T> responseEntity = 
-        //             new ResponseEntity<>(result, HttpStatus.OK);
-        // deferredResult.setResult(responseEntity);
- 
-        deferredResult.setResult(result);
-    }
+        ResponseEntity<T> responseEntity = 
+                    new ResponseEntity<>(result, HttpStatus.OK);
+        deferredResult.setResult(responseEntity);
+     }
 
 
     @Override

@@ -17,6 +17,16 @@ import org.json.simple.JSONObject;
 import java.util.Map;
 import java.util.Queue;
 
+/**
+* <h1>A Callback for listening to REST replies asynchronously</h1>
+* This class extends the ListenableFutureCallback class and manually sends
+* back the HTTP reply it receives to the specified "reply-To" queue of the
+* RabbitMQ request received by the RPCServers.
+*
+* @author  Vasileios Glykantzis
+* @version 1.0
+* @since   2017-01-26
+*/
 public class RestAPICallback<T> implements ListenableFutureCallback<T> {
 
     private static Log log = LogFactory.getLog(RestAPICallback.class);
@@ -27,11 +37,20 @@ public class RestAPICallback<T> implements ListenableFutureCallback<T> {
     private RabbitTemplate rabbitTemplate;
     private Queue<ListenableFuture<ResponseEntity<JSONObject>>> futuresQueue;
 
-
+   /**
+   * Constructor of the RestAPICallback
+   *
+   * @param request String describing the type of request. Used in logging.
+   * @param headers  The headers of the AMQP request
+   * @param futuresQueue  The Queue containing all the not yet served ListenableFutures
+   * @param future  The ListenableFuture which the class is set as callback for. 
+   * @param rabbitTemplate  The RabbitTemplate used to send the Spring AMQP reply
+   */
     public RestAPICallback(String request, Map<String, String> headers, Queue<ListenableFuture<ResponseEntity<JSONObject>>> futuresQueue,
             ListenableFuture<ResponseEntity<JSONObject>> future, RabbitTemplate rabbitTemplate) {
         this.request = request;
-        this.headers = headers;    
+        this.headers = headers;  
+        this.futuresQueue = futuresQueue;  
         this.future = future;
         this.rabbitTemplate = rabbitTemplate;    
     }
