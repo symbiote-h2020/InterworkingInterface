@@ -51,10 +51,10 @@
 //     @Autowired    
 //     AsyncRestTemplate asyncRestTemplate;
 
-//     @Value("${symbIoTeCoreUrl}")
+//     @Value("${symbIoTe.core.url}")
 //     private String symbIoTeCoreUrl;
 
-//     @Value("${platformId}")    
+//     @Value("${platform.id}")    
 //     private String platformId;
 
 //     private MockRestServiceServer mockServer;

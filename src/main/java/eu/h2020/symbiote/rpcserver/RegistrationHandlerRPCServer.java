@@ -44,10 +44,10 @@ public class RegistrationHandlerRPCServer {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @Value("${symbIoTeCoreUrl}")    
+    @Value("${symbIoTe.core.url}")    
     private String symbIoTeCoreUrl;
 
-    @Value("${platformId}")    
+    @Value("${platform.id}")    
     private String platformId;
 
     private final java.util.Queue<ListenableFuture<ResponseEntity<JSONObject>>> futuresQueue = 

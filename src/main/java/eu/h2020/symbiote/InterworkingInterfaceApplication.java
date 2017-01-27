@@ -35,7 +35,7 @@ public class InterworkingInterfaceApplication extends AsyncConfigurerSupport {
 
 	private static Log log = LogFactory.getLog(InterworkingInterfaceApplication.class);
 
-    @Value("${symbIoTeCoreUrl}")
+    @Value("${symbIoTe.core.url}")
     private String symbIoTeCoreUrl; 
 
 	public static void main(String[] args) {
