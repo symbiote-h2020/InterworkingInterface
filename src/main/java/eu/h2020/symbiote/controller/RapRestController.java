@@ -26,6 +26,16 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.springframework.web.context.request.async.DeferredResult;
 
 
+/**
+* <h1>RestController for Resource Access Proxy component</h1>
+* This class exposes REST interfaces for allowing access to the Resource
+* Access Proxy component from the external world (e.g. applications, enablers
+* or the symbIoTe Core.)
+*
+* @author  Vasileios Glykantzis
+* @version 1.0
+* @since   2017-01-26
+*/
 @CrossOrigin
 @RestController
 @RequestMapping("/rap")
@@ -36,6 +46,13 @@ public class RapRestController {
     @Autowired    
     private AsyncRabbitTemplate asyncRabbitTemplate;
 
+   /**
+   * REST interface for Resource Access Proxy's readResource method. This interface
+   * is used to read a value of the resource.
+   * 
+   * @param resourceId The id of the resource to be accessed
+   * @exception Exception
+   */
     @GetMapping(value="/resource/{resourceId}")
     @ResponseBody
     public DeferredResult<ResponseEntity<?>> readResource(@PathVariable String resourceId) throws Exception {
@@ -59,6 +76,13 @@ public class RapRestController {
         return deferredResult;
     }
 
+   /**
+   * REST interface for Resource Access Proxy's readResourceHistory method. This interface
+   * is used to read historical values of the resource.
+   *
+   * @param resourceId The id of the resource to be accessed
+   * @exception Exception
+   */
     @GetMapping(value="/resource/{resourceId}/history")
     @ResponseBody
     public DeferredResult<ResponseEntity<?>> readResourceHistory(@PathVariable String resourceId) throws Exception {
@@ -82,6 +106,14 @@ public class RapRestController {
         return deferredResult;
     }
 
+   /**
+   * REST interface for Resource Access Proxy's writeResource method. This interface
+   * is used to write a value to a resource (i.e. actuator)
+   *
+   * @param resourceId The id of the resource to be accessed
+   * @param value The value to be written to the resource
+   * @exception Exception
+   */
     @PostMapping(value="/{resourceId}")
     @ResponseBody
     public DeferredResult<ResponseEntity<?>> writeResource(@PathVariable String resourceId, @RequestBody String value) throws Exception {
