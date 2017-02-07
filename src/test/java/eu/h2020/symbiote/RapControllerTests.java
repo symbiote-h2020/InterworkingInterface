@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.context.annotation.Bean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.client.AsyncRestTemplate;
@@ -25,18 +28,16 @@ import java.nio.charset.Charset;
 
 import org.json.simple.JSONObject;
 
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.rabbit.annotation.Queue;
-import org.springframework.amqp.rabbit.annotation.Exchange;
-import org.springframework.amqp.rabbit.annotation.QueueBinding;
-import org.springframework.amqp.core.ExchangeTypes;
-
 import java.util.concurrent.TimeUnit;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.springframework.test.web.client.MockRestServiceServer;
+
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -70,23 +71,46 @@ public class RapControllerTests {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    @Autowired    
+    AsyncRestTemplate asyncRestTemplate;
+
+    @Value("${rap.url}")
+    private String rapUrl;
+
     private MockMvc mockMvc;
+
+    private MockRestServiceServer mockServer;
 
     // Execute the Setup method before the test.
     @Before
     public void setUp() throws Exception {
 
         mockMvc = webAppContextSetup(webApplicationContext).build();
+        mockServer = MockRestServiceServer.createServer(asyncRestTemplate);
 
 
     }
 
     @Test
-    public void testReadResource() throws Exception {
+    public void testRapGet() throws Exception {
 
-        String id = "1";
+        String value = "1";
+        String url = rapUrl + "/testRapGet";
 
-        MvcResult mvcResult = mockMvc.perform(get("/rap/resource/" + id))
+        mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.GET))
+                .andRespond(request -> {
+                    try {
+                        Thread.sleep(TimeUnit.SECONDS.toMillis(2)); // Delay
+                    } catch (InterruptedException ignored) {}
+
+                    JSONObject response = new JSONObject();
+                    response.put("value", value);
+                    log.info("testRapGet: Server woke up and will answer with " + response);
+
+                    return withStatus(HttpStatus.OK).body(response.toString()).contentType(MediaType.APPLICATION_JSON).createResponse(request);
+                });
+
+        MvcResult mvcResult = mockMvc.perform(get("/rap/testRapGet"))
             .andExpect(status().isOk())
             .andExpect(request().asyncStarted())
             .andReturn();
@@ -94,19 +118,34 @@ public class RapControllerTests {
         mvcResult = mockMvc.perform(asyncDispatch(mvcResult))
             .andExpect(status().isOk())
             .andExpect(content().contentType(json))
-            .andExpect(jsonPath("$.value", is("1")))
+            .andExpect(jsonPath("$.body.value", is(value)))
             .andReturn();
             
         log.info("MvcResult is: " + mvcResult.getResponse().getContentAsString());
 
     }
 
+
     @Test
-    public void testReadResourceHistory() throws Exception {
+    public void testRapPost() throws Exception {
 
-        String id = "1";
+        String value = "1";
+        String url = rapUrl + "/testRapPost";
 
-        MvcResult mvcResult = mockMvc.perform(get("/rap/resource/" + id + "/history"))
+        mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
+                .andRespond(request -> {
+                    try {
+                        Thread.sleep(TimeUnit.SECONDS.toMillis(2)); // Delay
+                    } catch (InterruptedException ignored) {}
+
+                    JSONObject response = new JSONObject();
+                    response.put("value", value);
+                    log.info("testRapPost: Server woke up and will answer with " + response);
+
+                    return withStatus(HttpStatus.OK).body(response.toString()).contentType(MediaType.APPLICATION_JSON).createResponse(request);
+                });
+
+        MvcResult mvcResult = mockMvc.perform(post("/rap/testRapPost").content("OK???"))
             .andExpect(status().isOk())
             .andExpect(request().asyncStarted())
             .andReturn();
@@ -114,26 +153,6 @@ public class RapControllerTests {
         mvcResult = mockMvc.perform(asyncDispatch(mvcResult))
             .andExpect(status().isOk())
             .andExpect(content().contentType(json))
-            .andExpect(jsonPath("$.value", is("1")))
-            .andReturn();
-            
-        log.info("MvcResult is: " + mvcResult.getResponse().getContentAsString());
-
-    }
-
-    @Test
-    public void testWriteResource() throws Exception {
-
-        String id = "1";
-
-        MvcResult mvcResult = mockMvc.perform(post("/rap/" + id).content("OK???"))
-            .andExpect(status().isOk())
-            .andExpect(request().asyncStarted())
-            .andReturn();
-
-        mvcResult = mockMvc.perform(asyncDispatch(mvcResult))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(plain))
             // .andExpect()
             .andReturn();
             
@@ -141,49 +160,5 @@ public class RapControllerTests {
 
     }
 
-
-    @RabbitListener(bindings = @QueueBinding(
-        value = @Queue(value = "symbIoTe-rap-readResource", durable = "false", autoDelete = "true", exclusive = "true"),
-        exchange = @Exchange(value = "symbIoTe.rap", ignoreDeclarationExceptions = "true", type = ExchangeTypes.TOPIC),
-        key = "symbIoTe.rap.readResource.*")
-    )
-    public JSONObject readResourceListener(JSONObject jsonObject) {
-       
-        log.info("Received message: " + jsonObject);
-
-        jsonObject.put("value", jsonObject.get("resourceId"));
-
-        log.info("Returns message: " + jsonObject);
-
-        return jsonObject;
-    }
-
-    @RabbitListener(bindings = @QueueBinding(
-        value = @Queue(value = "symbIoTe-rap-readResourceHistory", durable = "false", autoDelete = "true", exclusive = "true"),
-        exchange = @Exchange(value = "symbIoTe.rap", ignoreDeclarationExceptions = "true", type = ExchangeTypes.TOPIC),
-        key = "symbIoTe.rap.readResourceHistory.*")
-    )
-    public JSONObject readResourceHistoryListener(JSONObject jsonObject) {
-       
-        log.info("Received message: " + jsonObject);
-
-        jsonObject.put("value", jsonObject.get("resourceId"));
-
-        log.info("Returns message: " + jsonObject);
-
-        return jsonObject;
-    }
-
-    @RabbitListener(bindings = @QueueBinding(
-        value = @Queue(value = "symbIoTe-rap-writeResource", durable = "false", autoDelete = "true", exclusive = "true"),
-        exchange = @Exchange(value = "symbIoTe.rap", ignoreDeclarationExceptions = "true", type = ExchangeTypes.TOPIC),
-        key = "symbIoTe.rap.writeResource.*")
-    )
-    public String writeResourceListener(String string) {
-       
-        log.info("Received message: " + string);
-
-        return "YES";
-    }
 
 }

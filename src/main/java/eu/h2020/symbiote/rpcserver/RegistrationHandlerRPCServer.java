@@ -61,7 +61,7 @@ public class RegistrationHandlerRPCServer {
     public void resourceRegistration(JSONObject jsonObject, @Headers() Map<String, String> headers) {
 
         String message = "register_resources";
-        String url = symbIoTeCoreUrl + "platforms/" + platformId + "/resources";
+        String url = symbIoTeCoreUrl + "/platforms/" + platformId + "/resources";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -89,7 +89,7 @@ public class RegistrationHandlerRPCServer {
     public void resourceUnregistration(String id, @Headers() Map<String, String> headers) {
   
         String message = "unregister_resources";
-        String url = symbIoTeCoreUrl + "platforms/" + platformId + "/resources/" + id;
+        String url = symbIoTeCoreUrl + "/platforms/" + platformId + "/resources/" + id;
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -119,7 +119,7 @@ public class RegistrationHandlerRPCServer {
   
         String message = "update_resources";
         Integer id = (Integer)jsonObject.get("id");
-        String url = symbIoTeCoreUrl + "platforms/" + platformId + "/resources/" + id;
+        String url = symbIoTeCoreUrl + "/platforms/" + platformId + "/resources/" + id;
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);

@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,21 +10,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.HandlerMapping;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import org.springframework.amqp.rabbit.AsyncRabbitTemplate;
-import org.springframework.amqp.rabbit.AsyncRabbitTemplate.RabbitConverterFuture;
-import org.springframework.util.concurrent.ListenableFutureCallback;
+import org.springframework.web.client.AsyncRestTemplate;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpEntity;
+
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.web.context.request.async.DeferredResult;
 
 import org.json.simple.JSONObject;
 
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
-import org.springframework.web.context.request.async.DeferredResult;
 
 
 /**
@@ -43,8 +48,11 @@ public class RapRestController {
 
     private static Log log = LogFactory.getLog(RapRestController.class);
 
+    @Value("${rap.url}")
+    private String rapUrl;
+
     @Autowired    
-    private AsyncRabbitTemplate asyncRabbitTemplate;
+    AsyncRestTemplate asyncRestTemplate;
 
    /**
    * REST interface for Resource Access Proxy's readResource method. This interface
@@ -53,58 +61,34 @@ public class RapRestController {
    * @param resourceId The id of the resource to be accessed
    * @exception Exception
    */
-    @GetMapping(value="/resource/{resourceId}")
-    @ResponseBody
-    public DeferredResult<ResponseEntity<?>> readResource(@PathVariable String resourceId) throws Exception {
+    @GetMapping(value="/**")
+    public DeferredResult<ResponseEntity<?>> rapGet(HttpServletRequest request) throws Exception {
 
         DeferredResult<ResponseEntity<?>> deferredResult = new DeferredResult<>();
-        JSONObject query = new JSONObject();
+        String requestedUrl = (String) request.getAttribute(
+            HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+        String prefix = "/rap";
+        String url = rapUrl + requestedUrl.substring(requestedUrl.indexOf(prefix) + prefix.length());;
+                
+        String message = "Received GET request for RAP";
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(httpHeaders);        
 
-        query.put("resourceId", resourceId);
+        log.info("Received a GET request for RAP: " + requestedUrl);
+        log.info("Forwarding the request to: " + url);
 
-        log.info("Received request for resourceId: " + resourceId);
+        ListenableFuture<ResponseEntity<JSONObject>> future = asyncRestTemplate.exchange(
+            url, HttpMethod.GET, entity, JSONObject.class);
 
-        String exchangeName = "symbIoTe.rap";
-        String routingKey = "symbIoTe.rap.readResource." + resourceId;
-
-        RabbitConverterFuture<JSONObject> future = asyncRabbitTemplate.convertSendAndReceive(exchangeName, routingKey, query);
-        
-        RabbitMQCallback<JSONObject> callback = new RabbitMQCallback<JSONObject> ("readResource", deferredResult);
-
+        RapRestCallback<ResponseEntity<JSONObject>> callback = 
+            new RapRestCallback<ResponseEntity<JSONObject>> (message, deferredResult);
         future.addCallback(callback);
            
         return deferredResult;
     }
 
-   /**
-   * REST interface for Resource Access Proxy's readResourceHistory method. This interface
-   * is used to read historical values of the resource.
-   *
-   * @param resourceId The id of the resource to be accessed
-   * @exception Exception
-   */
-    @GetMapping(value="/resource/{resourceId}/history")
-    @ResponseBody
-    public DeferredResult<ResponseEntity<?>> readResourceHistory(@PathVariable String resourceId) throws Exception {
-
-        DeferredResult<ResponseEntity<?>> deferredResult = new DeferredResult<>();
-        JSONObject query = new JSONObject();
-
-        query.put("resourceId", resourceId);
-
-        log.info("Received request for resourceId: " + resourceId);
-
-        String exchangeName = "symbIoTe.rap";
-        String routingKey = "symbIoTe.rap.readResourceHistory." + resourceId;
-
-        RabbitConverterFuture<JSONObject> future = asyncRabbitTemplate.convertSendAndReceive(exchangeName, routingKey, query);
-        
-        RabbitMQCallback<JSONObject> callback = new RabbitMQCallback<JSONObject> ("readResourceHistory", deferredResult);
-
-        future.addCallback(callback);
-           
-        return deferredResult;
-    }
 
    /**
    * REST interface for Resource Access Proxy's writeResource method. This interface
@@ -114,21 +98,29 @@ public class RapRestController {
    * @param value The value to be written to the resource
    * @exception Exception
    */
-    @PostMapping(value="/{resourceId}")
-    @ResponseBody
-    public DeferredResult<ResponseEntity<?>> writeResource(@PathVariable String resourceId, @RequestBody String value) throws Exception {
+    @PostMapping(value="/**")
+    public DeferredResult<ResponseEntity<?>> rapPost(@RequestBody String value, HttpServletRequest request) throws Exception {
 
         DeferredResult<ResponseEntity<?>> deferredResult = new DeferredResult<>();
-  
-        log.info("Received request for resourceId: " + resourceId);
+        String requestedUrl = (String) request.getAttribute(
+            HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+        String prefix = "/rap";
+        String url = rapUrl + requestedUrl.substring(requestedUrl.indexOf(prefix) + prefix.length());;
+                
+        String message = "Received POST request for RAP";
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(new JSONObject().toString(), httpHeaders);        
 
-        String exchangeName = "symbIoTe.rap";
-        String routingKey = "symbIoTe.rap.writeResource." + resourceId;
+        log.info("Received a POST request for RAP: " + requestedUrl);
+        log.info("Forwarding the request to: " + url);
 
-        RabbitConverterFuture<String> future = asyncRabbitTemplate.convertSendAndReceive(exchangeName, routingKey, value);
-        
-        RabbitMQCallback<String> callback = new RabbitMQCallback<String> ("readResourceHistory", deferredResult);
+        ListenableFuture<ResponseEntity<JSONObject>> future = asyncRestTemplate.exchange(
+            url, HttpMethod.POST, entity, JSONObject.class);
 
+        RapRestCallback<ResponseEntity<JSONObject>> callback = 
+            new RapRestCallback<ResponseEntity<JSONObject>> (message, deferredResult);
         future.addCallback(callback);
            
         return deferredResult;
