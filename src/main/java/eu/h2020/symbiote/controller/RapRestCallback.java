@@ -21,21 +21,21 @@ import org.springframework.web.context.request.async.DeferredResult;
 * @version 1.0
 * @since   2017-01-26
 */
-public class RabbitMQCallback<T> implements ListenableFutureCallback<T> {
+public class RapRestCallback<T> implements ListenableFutureCallback<T> {
 
-    private static Log log = LogFactory.getLog(RabbitMQCallback.class);
+    private static Log log = LogFactory.getLog(RapRestCallback.class);
 
     private DeferredResult deferredResult;
 
     private String request;
 
    /**
-   * Constructor of the RabbitMQCallback
+   * Constructor of the RapRestCallback
    *
    * @param request String describing the type of request. Used in logging.
    * @param deferredResult  The deferredResult which is modified to serve the HTTP request.
    */
-    public RabbitMQCallback(String request, DeferredResult deferredResult) {
+    public RapRestCallback(String request, DeferredResult deferredResult) {
         this.request = request;
         this.deferredResult = deferredResult;    
     }
