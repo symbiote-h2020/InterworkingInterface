@@ -3,21 +3,13 @@
 
 
 Collaboration diagram for eu.\+h2020.\+symbiote.\+controller.\+Rap\+Rest\+Controller\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=225pt]{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController__coll__graph}
-\end{center}
-\end{figure}
+% FIG 0
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-Deferred\+Result$<$ Response\+Entity$<$?$>$ $>$ \hyperlink{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController_a02b5cac53d1bb33fb9e89cfc705511f4}{read\+Resource} (@Path\+Variable String resource\+Id)  throws Exception 
+Deferred\+Result$<$ Response\+Entity$<$?$>$ $>$ \hyperlink{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController_a505d4e7b0a63caeb4343679149422b26}{rap\+Get} (Http\+Servlet\+Request request)  throws Exception 
 \item 
-Deferred\+Result$<$ Response\+Entity$<$?$>$ $>$ \hyperlink{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController_a11fc8b8068e57e32a81b1d3c835cded4}{read\+Resource\+History} (@Path\+Variable String resource\+Id)  throws Exception 
-\item 
-Deferred\+Result$<$ Response\+Entity$<$?$>$ $>$ \hyperlink{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController_a2880be887baef0ec6a60627f7c9dc927}{write\+Resource} (@Path\+Variable String resource\+Id, @Request\+Body String value)  throws Exception 
+Deferred\+Result$<$ Response\+Entity$<$?$>$ $>$ \hyperlink{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController_a6c012c973b8b6500acc7c638a53b45a1}{rap\+Post} (@Request\+Body String value, Http\+Servlet\+Request request)  throws Exception 
 \end{DoxyCompactItemize}
 
 
@@ -38,11 +30,11 @@ Vasileios Glykantzis
 
 
 \subsection{Member Function Documentation}
-\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController_a02b5cac53d1bb33fb9e89cfc705511f4}\label{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController_a02b5cac53d1bb33fb9e89cfc705511f4}} 
-\index{eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller@{eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller}!read\+Resource@{read\+Resource}}
-\index{read\+Resource@{read\+Resource}!eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller@{eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller}}
-\subsubsection{\texorpdfstring{read\+Resource()}{readResource()}}
-{\footnotesize\ttfamily Deferred\+Result$<$Response\+Entity$<$?$>$ $>$ eu.\+h2020.\+symbiote.\+controller.\+Rap\+Rest\+Controller.\+read\+Resource (\begin{DoxyParamCaption}\item[{@Path\+Variable String}]{resource\+Id }\end{DoxyParamCaption}) throws Exception}
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController_a505d4e7b0a63caeb4343679149422b26}\label{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController_a505d4e7b0a63caeb4343679149422b26}} 
+\index{eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller@{eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller}!rap\+Get@{rap\+Get}}
+\index{rap\+Get@{rap\+Get}!eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller@{eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller}}
+\subsubsection{\texorpdfstring{rap\+Get()}{rapGet()}}
+{\footnotesize\ttfamily Deferred\+Result$<$Response\+Entity$<$?$>$ $>$ eu.\+h2020.\+symbiote.\+controller.\+Rap\+Rest\+Controller.\+rap\+Get (\begin{DoxyParamCaption}\item[{Http\+Servlet\+Request}]{request }\end{DoxyParamCaption}) throws Exception}
 
 R\+E\+ST interface for Resource Access Proxy\textquotesingle{}s read\+Resource method. This interface is used to read a value of the resource.
 
@@ -56,29 +48,11 @@ R\+E\+ST interface for Resource Access Proxy\textquotesingle{}s read\+Resource m
 {\em Exception} & \\
 \hline
 \end{DoxyExceptions}
-\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController_a11fc8b8068e57e32a81b1d3c835cded4}\label{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController_a11fc8b8068e57e32a81b1d3c835cded4}} 
-\index{eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller@{eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller}!read\+Resource\+History@{read\+Resource\+History}}
-\index{read\+Resource\+History@{read\+Resource\+History}!eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller@{eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller}}
-\subsubsection{\texorpdfstring{read\+Resource\+History()}{readResourceHistory()}}
-{\footnotesize\ttfamily Deferred\+Result$<$Response\+Entity$<$?$>$ $>$ eu.\+h2020.\+symbiote.\+controller.\+Rap\+Rest\+Controller.\+read\+Resource\+History (\begin{DoxyParamCaption}\item[{@Path\+Variable String}]{resource\+Id }\end{DoxyParamCaption}) throws Exception}
-
-R\+E\+ST interface for Resource Access Proxy\textquotesingle{}s read\+Resource\+History method. This interface is used to read historical values of the resource.
-
-
-\begin{DoxyParams}{Parameters}
-{\em resource\+Id} & The id of the resource to be accessed \\
-\hline
-\end{DoxyParams}
-
-\begin{DoxyExceptions}{Exceptions}
-{\em Exception} & \\
-\hline
-\end{DoxyExceptions}
-\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController_a2880be887baef0ec6a60627f7c9dc927}\label{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController_a2880be887baef0ec6a60627f7c9dc927}} 
-\index{eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller@{eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller}!write\+Resource@{write\+Resource}}
-\index{write\+Resource@{write\+Resource}!eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller@{eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller}}
-\subsubsection{\texorpdfstring{write\+Resource()}{writeResource()}}
-{\footnotesize\ttfamily Deferred\+Result$<$Response\+Entity$<$?$>$ $>$ eu.\+h2020.\+symbiote.\+controller.\+Rap\+Rest\+Controller.\+write\+Resource (\begin{DoxyParamCaption}\item[{@Path\+Variable String}]{resource\+Id,  }\item[{@Request\+Body String}]{value }\end{DoxyParamCaption}) throws Exception}
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController_a6c012c973b8b6500acc7c638a53b45a1}\label{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController_a6c012c973b8b6500acc7c638a53b45a1}} 
+\index{eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller@{eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller}!rap\+Post@{rap\+Post}}
+\index{rap\+Post@{rap\+Post}!eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller@{eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller}}
+\subsubsection{\texorpdfstring{rap\+Post()}{rapPost()}}
+{\footnotesize\ttfamily Deferred\+Result$<$Response\+Entity$<$?$>$ $>$ eu.\+h2020.\+symbiote.\+controller.\+Rap\+Rest\+Controller.\+rap\+Post (\begin{DoxyParamCaption}\item[{@Request\+Body String}]{value,  }\item[{Http\+Servlet\+Request}]{request }\end{DoxyParamCaption}) throws Exception}
 
 R\+E\+ST interface for Resource Access Proxy\textquotesingle{}s write\+Resource method. This interface is used to write a value to a resource (i.\+e. actuator)
 

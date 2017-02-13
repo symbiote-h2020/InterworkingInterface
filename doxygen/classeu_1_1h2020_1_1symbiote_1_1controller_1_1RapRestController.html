@@ -73,18 +73,15 @@ $(function() {
 Collaboration diagram for eu.h2020.symbiote.controller.RapRestController:</div>
 <div class="dyncontent">
 <div class="center"><img src="classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController__coll__graph.png" border="0" usemap="#eu_8h2020_8symbiote_8controller_8RapRestController_coll__map" alt="Collaboration graph"/></div>
-<map name="eu_8h2020_8symbiote_8controller_8RapRestController_coll__map" id="eu_8h2020_8symbiote_8controller_8RapRestController_coll__map">
-</map>
+<!-- MAP 0 -->
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a02b5cac53d1bb33fb9e89cfc705511f4"><td class="memItemLeft" align="right" valign="top">DeferredResult&lt; ResponseEntity&lt;?&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController.html#a02b5cac53d1bb33fb9e89cfc705511f4">readResource</a> (@PathVariable String resourceId)  throws Exception </td></tr>
-<tr class="separator:a02b5cac53d1bb33fb9e89cfc705511f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11fc8b8068e57e32a81b1d3c835cded4"><td class="memItemLeft" align="right" valign="top">DeferredResult&lt; ResponseEntity&lt;?&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController.html#a11fc8b8068e57e32a81b1d3c835cded4">readResourceHistory</a> (@PathVariable String resourceId)  throws Exception </td></tr>
-<tr class="separator:a11fc8b8068e57e32a81b1d3c835cded4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2880be887baef0ec6a60627f7c9dc927"><td class="memItemLeft" align="right" valign="top">DeferredResult&lt; ResponseEntity&lt;?&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController.html#a2880be887baef0ec6a60627f7c9dc927">writeResource</a> (@PathVariable String resourceId, @RequestBody String value)  throws Exception </td></tr>
-<tr class="separator:a2880be887baef0ec6a60627f7c9dc927"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a505d4e7b0a63caeb4343679149422b26"><td class="memItemLeft" align="right" valign="top">DeferredResult&lt; ResponseEntity&lt;?&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController.html#a505d4e7b0a63caeb4343679149422b26">rapGet</a> (HttpServletRequest request)  throws Exception </td></tr>
+<tr class="separator:a505d4e7b0a63caeb4343679149422b26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c012c973b8b6500acc7c638a53b45a1"><td class="memItemLeft" align="right" valign="top">DeferredResult&lt; ResponseEntity&lt;?&gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController.html#a6c012c973b8b6500acc7c638a53b45a1">rapPost</a> (@RequestBody String value, HttpServletRequest request)  throws Exception </td></tr>
+<tr class="separator:a6c012c973b8b6500acc7c638a53b45a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h1>RestController for Resource Access Proxy component</h1>
@@ -93,17 +90,17 @@ Public Member Functions</h2></td></tr>
 <dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>2017-01-26 </dd></dl>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a02b5cac53d1bb33fb9e89cfc705511f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02b5cac53d1bb33fb9e89cfc705511f4">&#9670;&nbsp;</a></span>readResource()</h2>
+<a id="a505d4e7b0a63caeb4343679149422b26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a505d4e7b0a63caeb4343679149422b26">&#9670;&nbsp;</a></span>rapGet()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">DeferredResult&lt;ResponseEntity&lt;?&gt; &gt; eu.h2020.symbiote.controller.RapRestController.readResource </td>
+          <td class="memname">DeferredResult&lt;ResponseEntity&lt;?&gt; &gt; eu.h2020.symbiote.controller.RapRestController.rapGet </td>
           <td>(</td>
-          <td class="paramtype">@PathVariable String&#160;</td>
-          <td class="paramname"><em>resourceId</em></td><td>)</td>
+          <td class="paramtype">HttpServletRequest&#160;</td>
+          <td class="paramname"><em>request</em></td><td>)</td>
           <td> throws Exception</td>
         </tr>
       </table>
@@ -124,54 +121,23 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a11fc8b8068e57e32a81b1d3c835cded4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11fc8b8068e57e32a81b1d3c835cded4">&#9670;&nbsp;</a></span>readResourceHistory()</h2>
+<a id="a6c012c973b8b6500acc7c638a53b45a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c012c973b8b6500acc7c638a53b45a1">&#9670;&nbsp;</a></span>rapPost()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">DeferredResult&lt;ResponseEntity&lt;?&gt; &gt; eu.h2020.symbiote.controller.RapRestController.readResourceHistory </td>
+          <td class="memname">DeferredResult&lt;ResponseEntity&lt;?&gt; &gt; eu.h2020.symbiote.controller.RapRestController.rapPost </td>
           <td>(</td>
-          <td class="paramtype">@PathVariable String&#160;</td>
-          <td class="paramname"><em>resourceId</em></td><td>)</td>
-          <td> throws Exception</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>REST interface for Resource Access Proxy's readResourceHistory method. This interface is used to read historical values of the resource.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">resourceId</td><td>The id of the resource to be accessed </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">Exception</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a2880be887baef0ec6a60627f7c9dc927"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2880be887baef0ec6a60627f7c9dc927">&#9670;&nbsp;</a></span>writeResource()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">DeferredResult&lt;ResponseEntity&lt;?&gt; &gt; eu.h2020.symbiote.controller.RapRestController.writeResource </td>
-          <td>(</td>
-          <td class="paramtype">@PathVariable String&#160;</td>
-          <td class="paramname"><em>resourceId</em>, </td>
+          <td class="paramtype">@RequestBody String&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">@RequestBody String&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
+          <td class="paramtype">HttpServletRequest&#160;</td>
+          <td class="paramname"><em>request</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
