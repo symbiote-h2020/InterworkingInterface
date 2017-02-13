@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classeu_1_1h2020_1_1symbiote_1_1controller_1_1InterworkingInterfaceController.html" title="eu.h2020.symbiote.controller.\lInterworkingInterfaceController" alt="" coords="5,5,205,47"/>
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestCallback.html" title="eu.h2020.symbiote.controller.\lRapRestCallback\&lt; T \&gt;" alt="" coords="225,5,418,46"/>
+<area shape="rect" id="node3" href="$classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RestAPICallback.html" title="eu.h2020.symbiote.rpcserver.\lRestAPICallback\&lt; T \&gt;" alt="" coords="224,70,419,111"/>
 </map>

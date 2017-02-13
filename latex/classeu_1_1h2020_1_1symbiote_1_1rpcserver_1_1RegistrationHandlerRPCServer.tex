@@ -12,15 +12,76 @@ Collaboration diagram for eu.\+h2020.\+symbiote.\+rpcserver.\+Registration\+Hand
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer_a59d3a42c7b9a1b51b7956226abc1d66e}\label{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer_a59d3a42c7b9a1b51b7956226abc1d66e}} 
-void {\bfseries resource\+Registration} (J\+S\+O\+N\+Object json\+Object, @Headers() Map$<$ String, String $>$ headers)
+void \hyperlink{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer_a59d3a42c7b9a1b51b7956226abc1d66e}{resource\+Registration} (J\+S\+O\+N\+Object json\+Object, @Headers() Map$<$ String, String $>$ headers)
 \item 
-\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer_acbb159563455460f6a3da99e5353d11a}\label{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer_acbb159563455460f6a3da99e5353d11a}} 
-void {\bfseries resource\+Unregistration} (String id, @Headers() Map$<$ String, String $>$ headers)
+void \hyperlink{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer_acbb159563455460f6a3da99e5353d11a}{resource\+Unregistration} (String id, @Headers() Map$<$ String, String $>$ headers)
 \item 
-\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer_add97d8f15845030d4f09f7db65107bec}\label{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer_add97d8f15845030d4f09f7db65107bec}} 
-void {\bfseries resource\+Update} (J\+S\+O\+N\+Object json\+Object, @Headers() Map$<$ String, String $>$ headers)
+void \hyperlink{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer_add97d8f15845030d4f09f7db65107bec}{resource\+Update} (J\+S\+O\+N\+Object json\+Object, @Headers() Map$<$ String, String $>$ headers)
 \end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsection*{\hyperlink{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer}{Registration\+Handler\+R\+P\+C\+Server} for Resource Access Proxy component}
+
+This class exposes Spring A\+M\+QP interfaces for allowing Registration Handler to access the external world (e.\+g. applications, enablers or the symb\+Io\+Te Core.)
+
+\begin{DoxyAuthor}{Author}
+Vasileios Glykantzis 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxySince}{Since}
+2017-\/01-\/26 
+\end{DoxySince}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer_a59d3a42c7b9a1b51b7956226abc1d66e}\label{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer_a59d3a42c7b9a1b51b7956226abc1d66e}} 
+\index{eu\+::h2020\+::symbiote\+::rpcserver\+::\+Registration\+Handler\+R\+P\+C\+Server@{eu\+::h2020\+::symbiote\+::rpcserver\+::\+Registration\+Handler\+R\+P\+C\+Server}!resource\+Registration@{resource\+Registration}}
+\index{resource\+Registration@{resource\+Registration}!eu\+::h2020\+::symbiote\+::rpcserver\+::\+Registration\+Handler\+R\+P\+C\+Server@{eu\+::h2020\+::symbiote\+::rpcserver\+::\+Registration\+Handler\+R\+P\+C\+Server}}
+\subsubsection{\texorpdfstring{resource\+Registration()}{resourceRegistration()}}
+{\footnotesize\ttfamily void eu.\+h2020.\+symbiote.\+rpcserver.\+Registration\+Handler\+R\+P\+C\+Server.\+resource\+Registration (\begin{DoxyParamCaption}\item[{J\+S\+O\+N\+Object}]{json\+Object,  }\item[{@Headers() Map$<$ String, String $>$}]{headers }\end{DoxyParamCaption})}
+
+Spring A\+M\+QP Listener for resource registration requests. This method is invoked when Registration Handler sends a resource registration request and it is responsible for forwarding the message to the symb\+Io\+Te core. As soon as it receives a reply, it manually sends back the response to the Registration Handler via the appropriate message queue by the use of the \hyperlink{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RestAPICallback}{Rest\+A\+P\+I\+Callback}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em json\+Object} & A json\+Object containing the resource description \\
+\hline
+{\em headers} & The A\+M\+QP headers \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer_acbb159563455460f6a3da99e5353d11a}\label{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer_acbb159563455460f6a3da99e5353d11a}} 
+\index{eu\+::h2020\+::symbiote\+::rpcserver\+::\+Registration\+Handler\+R\+P\+C\+Server@{eu\+::h2020\+::symbiote\+::rpcserver\+::\+Registration\+Handler\+R\+P\+C\+Server}!resource\+Unregistration@{resource\+Unregistration}}
+\index{resource\+Unregistration@{resource\+Unregistration}!eu\+::h2020\+::symbiote\+::rpcserver\+::\+Registration\+Handler\+R\+P\+C\+Server@{eu\+::h2020\+::symbiote\+::rpcserver\+::\+Registration\+Handler\+R\+P\+C\+Server}}
+\subsubsection{\texorpdfstring{resource\+Unregistration()}{resourceUnregistration()}}
+{\footnotesize\ttfamily void eu.\+h2020.\+symbiote.\+rpcserver.\+Registration\+Handler\+R\+P\+C\+Server.\+resource\+Unregistration (\begin{DoxyParamCaption}\item[{String}]{id,  }\item[{@Headers() Map$<$ String, String $>$}]{headers }\end{DoxyParamCaption})}
+
+Spring A\+M\+QP Listener for resource unregistration requests. This method is invoked when Registration Handler sends a resource registration request and it is responsible for forwarding the message to the symb\+Io\+Te core. As soon as it receives a reply, it manually sends back the response to the Registration Handler via the appropriate message queue by the use of the \hyperlink{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RestAPICallback}{Rest\+A\+P\+I\+Callback}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & The id of the resource to be deleted \\
+\hline
+{\em headers} & The A\+M\+QP headers \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer_add97d8f15845030d4f09f7db65107bec}\label{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer_add97d8f15845030d4f09f7db65107bec}} 
+\index{eu\+::h2020\+::symbiote\+::rpcserver\+::\+Registration\+Handler\+R\+P\+C\+Server@{eu\+::h2020\+::symbiote\+::rpcserver\+::\+Registration\+Handler\+R\+P\+C\+Server}!resource\+Update@{resource\+Update}}
+\index{resource\+Update@{resource\+Update}!eu\+::h2020\+::symbiote\+::rpcserver\+::\+Registration\+Handler\+R\+P\+C\+Server@{eu\+::h2020\+::symbiote\+::rpcserver\+::\+Registration\+Handler\+R\+P\+C\+Server}}
+\subsubsection{\texorpdfstring{resource\+Update()}{resourceUpdate()}}
+{\footnotesize\ttfamily void eu.\+h2020.\+symbiote.\+rpcserver.\+Registration\+Handler\+R\+P\+C\+Server.\+resource\+Update (\begin{DoxyParamCaption}\item[{J\+S\+O\+N\+Object}]{json\+Object,  }\item[{@Headers() Map$<$ String, String $>$}]{headers }\end{DoxyParamCaption})}
+
+Spring A\+M\+QP Listener for resource update requests. This method is invoked when Registration Handler sends a resource registration request and it is responsible for forwarding the message to the symb\+Io\+Te core. As soon as it receives a reply, it manually sends back the response to the Registration Handler via the appropriate message queue by the use of the \hyperlink{classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RestAPICallback}{Rest\+A\+P\+I\+Callback}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em json\+Object} & A json\+Object containing the resource description \\
+\hline
+{\em headers} & The A\+M\+QP headers \\
+\hline
+\end{DoxyParams}
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}

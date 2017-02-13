@@ -73,20 +73,134 @@ $(function() {
 Collaboration diagram for eu.h2020.symbiote.rpcserver.RegistrationHandlerRPCServer:</div>
 <div class="dyncontent">
 <div class="center"><img src="classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer__coll__graph.png" border="0" usemap="#eu_8h2020_8symbiote_8rpcserver_8RegistrationHandlerRPCServer_coll__map" alt="Collaboration graph"/></div>
+<map name="eu_8h2020_8symbiote_8rpcserver_8RegistrationHandlerRPCServer_coll__map" id="eu_8h2020_8symbiote_8rpcserver_8RegistrationHandlerRPCServer_coll__map">
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a59d3a42c7b9a1b51b7956226abc1d66e"><td class="memItemLeft" align="right" valign="top"><a id="a59d3a42c7b9a1b51b7956226abc1d66e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>resourceRegistration</b> (JSONObject jsonObject, @Headers() Map&lt; String, String &gt; headers)</td></tr>
+<tr class="memitem:a59d3a42c7b9a1b51b7956226abc1d66e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer.html#a59d3a42c7b9a1b51b7956226abc1d66e">resourceRegistration</a> (JSONObject jsonObject, @Headers() Map&lt; String, String &gt; headers)</td></tr>
 <tr class="separator:a59d3a42c7b9a1b51b7956226abc1d66e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbb159563455460f6a3da99e5353d11a"><td class="memItemLeft" align="right" valign="top"><a id="acbb159563455460f6a3da99e5353d11a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>resourceUnregistration</b> (String id, @Headers() Map&lt; String, String &gt; headers)</td></tr>
+<tr class="memitem:acbb159563455460f6a3da99e5353d11a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer.html#acbb159563455460f6a3da99e5353d11a">resourceUnregistration</a> (String id, @Headers() Map&lt; String, String &gt; headers)</td></tr>
 <tr class="separator:acbb159563455460f6a3da99e5353d11a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add97d8f15845030d4f09f7db65107bec"><td class="memItemLeft" align="right" valign="top"><a id="add97d8f15845030d4f09f7db65107bec"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>resourceUpdate</b> (JSONObject jsonObject, @Headers() Map&lt; String, String &gt; headers)</td></tr>
+<tr class="memitem:add97d8f15845030d4f09f7db65107bec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer.html#add97d8f15845030d4f09f7db65107bec">resourceUpdate</a> (JSONObject jsonObject, @Headers() Map&lt; String, String &gt; headers)</td></tr>
 <tr class="separator:add97d8f15845030d4f09f7db65107bec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h1><a class="el" href="classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RegistrationHandlerRPCServer.html">RegistrationHandlerRPCServer</a> for Resource Access Proxy component</h1>
+<p>This class exposes Spring AMQP interfaces for allowing Registration Handler to access the external world (e.g. applications, enablers or the symbIoTe Core.)</p>
+<dl class="section author"><dt>Author</dt><dd>Vasileios Glykantzis </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>2017-01-26 </dd></dl>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a59d3a42c7b9a1b51b7956226abc1d66e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59d3a42c7b9a1b51b7956226abc1d66e">&#9670;&nbsp;</a></span>resourceRegistration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void eu.h2020.symbiote.rpcserver.RegistrationHandlerRPCServer.resourceRegistration </td>
+          <td>(</td>
+          <td class="paramtype">JSONObject&#160;</td>
+          <td class="paramname"><em>jsonObject</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">@Headers() Map&lt; String, String &gt;&#160;</td>
+          <td class="paramname"><em>headers</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Spring AMQP Listener for resource registration requests. This method is invoked when Registration Handler sends a resource registration request and it is responsible for forwarding the message to the symbIoTe core. As soon as it receives a reply, it manually sends back the response to the Registration Handler via the appropriate message queue by the use of the <a class="el" href="classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RestAPICallback.html">RestAPICallback</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">jsonObject</td><td>A jsonObject containing the resource description </td></tr>
+    <tr><td class="paramname">headers</td><td>The AMQP headers </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="acbb159563455460f6a3da99e5353d11a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbb159563455460f6a3da99e5353d11a">&#9670;&nbsp;</a></span>resourceUnregistration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void eu.h2020.symbiote.rpcserver.RegistrationHandlerRPCServer.resourceUnregistration </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">@Headers() Map&lt; String, String &gt;&#160;</td>
+          <td class="paramname"><em>headers</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Spring AMQP Listener for resource unregistration requests. This method is invoked when Registration Handler sends a resource registration request and it is responsible for forwarding the message to the symbIoTe core. As soon as it receives a reply, it manually sends back the response to the Registration Handler via the appropriate message queue by the use of the <a class="el" href="classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RestAPICallback.html">RestAPICallback</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>The id of the resource to be deleted </td></tr>
+    <tr><td class="paramname">headers</td><td>The AMQP headers </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="add97d8f15845030d4f09f7db65107bec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add97d8f15845030d4f09f7db65107bec">&#9670;&nbsp;</a></span>resourceUpdate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void eu.h2020.symbiote.rpcserver.RegistrationHandlerRPCServer.resourceUpdate </td>
+          <td>(</td>
+          <td class="paramtype">JSONObject&#160;</td>
+          <td class="paramname"><em>jsonObject</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">@Headers() Map&lt; String, String &gt;&#160;</td>
+          <td class="paramname"><em>headers</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Spring AMQP Listener for resource update requests. This method is invoked when Registration Handler sends a resource registration request and it is responsible for forwarding the message to the symbIoTe core. As soon as it receives a reply, it manually sends back the response to the Registration Handler via the appropriate message queue by the use of the <a class="el" href="classeu_1_1h2020_1_1symbiote_1_1rpcserver_1_1RestAPICallback.html">RestAPICallback</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">jsonObject</td><td>A jsonObject containing the resource description </td></tr>
+    <tr><td class="paramname">headers</td><td>The AMQP headers </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>src/main/java/eu/h2020/symbiote/rpcserver/RegistrationHandlerRPCServer.java</li>
 </ul>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['writeresource',['writeResource',['../classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController.html#a2880be887baef0ec6a60627f7c9dc927',1,'eu::h2020::symbiote::controller::RapRestController']]]
+  ['updateplatformid',['updatePlatformId',['../classeu_1_1h2020_1_1symbiote_1_1controller_1_1InterworkingInterfaceController.html#a6ff9bf0ef30e7e2a34b2d89e77399a59',1,'eu::h2020::symbiote::controller::InterworkingInterfaceController']]]
 ];

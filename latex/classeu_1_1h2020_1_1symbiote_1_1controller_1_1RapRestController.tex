@@ -2,8 +2,13 @@
 \label{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController}\index{eu.\+h2020.\+symbiote.\+controller.\+Rap\+Rest\+Controller@{eu.\+h2020.\+symbiote.\+controller.\+Rap\+Rest\+Controller}}
 
 
-Collaboration diagram for eu.\+h2020.\+symbiote.\+controller.\+Rap\+Rest\+Controller\+:
-% FIG 0
+Collaboration diagram for eu.\+h2020.\+symbiote.\+controller.\+Rap\+Rest\+Controller\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=225pt]{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController__coll__graph}
+\end{center}
+\end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -16,7 +21,7 @@ Deferred\+Result$<$ Response\+Entity$<$?$>$ $>$ \hyperlink{classeu_1_1h2020_1_1s
 \subsection{Detailed Description}
 \subsection*{Rest\+Controller for Resource Access Proxy component}
 
-This class exposes R\+E\+ST interfaces for allowing access to the Resource Access Proxy component from the external world (e.\+g. applications, enablers or the symb\+Io\+Te Core.)
+This class exposes R\+E\+ST interfaces for allowing access to the Resource Access Proxy component from the external world (e.\+g. applications, enablers or the symb\+Io\+Te Core.). Specifically, it serves as a reverse proxy for Resource Registration Handler.
 
 \begin{DoxyAuthor}{Author}
 Vasileios Glykantzis 
@@ -36,38 +41,26 @@ Vasileios Glykantzis
 \subsubsection{\texorpdfstring{rap\+Get()}{rapGet()}}
 {\footnotesize\ttfamily Deferred\+Result$<$Response\+Entity$<$?$>$ $>$ eu.\+h2020.\+symbiote.\+controller.\+Rap\+Rest\+Controller.\+rap\+Get (\begin{DoxyParamCaption}\item[{Http\+Servlet\+Request}]{request }\end{DoxyParamCaption}) throws Exception}
 
-R\+E\+ST interface for Resource Access Proxy\textquotesingle{}s read\+Resource method. This interface is used to read a value of the resource.
+R\+E\+ST interface for forwarding all G\+ET requests to Resource Access Proxy
 
 
 \begin{DoxyParams}{Parameters}
-{\em resource\+Id} & The id of the resource to be accessed \\
+{\em request} & The request to be forwarded to the Resource Access Proxy \\
 \hline
 \end{DoxyParams}
-
-\begin{DoxyExceptions}{Exceptions}
-{\em Exception} & \\
-\hline
-\end{DoxyExceptions}
 \mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController_a6c012c973b8b6500acc7c638a53b45a1}\label{classeu_1_1h2020_1_1symbiote_1_1controller_1_1RapRestController_a6c012c973b8b6500acc7c638a53b45a1}} 
 \index{eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller@{eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller}!rap\+Post@{rap\+Post}}
 \index{rap\+Post@{rap\+Post}!eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller@{eu\+::h2020\+::symbiote\+::controller\+::\+Rap\+Rest\+Controller}}
 \subsubsection{\texorpdfstring{rap\+Post()}{rapPost()}}
 {\footnotesize\ttfamily Deferred\+Result$<$Response\+Entity$<$?$>$ $>$ eu.\+h2020.\+symbiote.\+controller.\+Rap\+Rest\+Controller.\+rap\+Post (\begin{DoxyParamCaption}\item[{@Request\+Body String}]{value,  }\item[{Http\+Servlet\+Request}]{request }\end{DoxyParamCaption}) throws Exception}
 
-R\+E\+ST interface for Resource Access Proxy\textquotesingle{}s write\+Resource method. This interface is used to write a value to a resource (i.\+e. actuator)
+R\+E\+ST interface for forwarding all P\+O\+ST requests to Resource Access Proxy
 
 
 \begin{DoxyParams}{Parameters}
-{\em resource\+Id} & The id of the resource to be accessed \\
-\hline
-{\em value} & The value to be written to the resource \\
+{\em request} & The request to be forwarded to the Resource Access Proxy \\
 \hline
 \end{DoxyParams}
-
-\begin{DoxyExceptions}{Exceptions}
-{\em Exception} & \\
-\hline
-\end{DoxyExceptions}
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
