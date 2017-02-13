@@ -35,7 +35,8 @@ import org.json.simple.JSONObject;
 * <h1>RestController for Resource Access Proxy component</h1>
 * This class exposes REST interfaces for allowing access to the Resource
 * Access Proxy component from the external world (e.g. applications, enablers
-* or the symbIoTe Core.)
+* or the symbIoTe Core.). Specifically, it serves as a reverse proxy for
+* Resource Registration Handler.
 *
 * @author  Vasileios Glykantzis
 * @version 1.0
@@ -55,11 +56,9 @@ public class RapRestController {
     AsyncRestTemplate asyncRestTemplate;
 
    /**
-   * REST interface for Resource Access Proxy's readResource method. This interface
-   * is used to read a value of the resource.
+   * REST interface for forwarding all GET requests to Resource Access Proxy
    * 
-   * @param resourceId The id of the resource to be accessed
-   * @exception Exception
+   * @param request The request to be forwarded to the Resource Access Proxy
    */
     @GetMapping(value="/**")
     public DeferredResult<ResponseEntity<?>> rapGet(HttpServletRequest request) throws Exception {
@@ -91,12 +90,9 @@ public class RapRestController {
 
 
    /**
-   * REST interface for Resource Access Proxy's writeResource method. This interface
-   * is used to write a value to a resource (i.e. actuator)
-   *
-   * @param resourceId The id of the resource to be accessed
-   * @param value The value to be written to the resource
-   * @exception Exception
+   * REST interface for forwarding all POST requests to Resource Access Proxy
+   * 
+   * @param request The request to be forwarded to the Resource Access Proxy
    */
     @PostMapping(value="/**")
     public DeferredResult<ResponseEntity<?>> rapPost(@RequestBody String value, HttpServletRequest request) throws Exception {

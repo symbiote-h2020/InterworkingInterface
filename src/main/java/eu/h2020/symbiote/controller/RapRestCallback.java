@@ -12,10 +12,12 @@ import org.springframework.web.context.request.async.DeferredResult;
 
 
 /**
-* <h1>A Callback for listening to asynchronous RabbitMQ replies</h1>
+* <h1>A Callback for listening to asynchronous REST replies from the
+* Resource Access Proxy</h1>
 * This class extends the ListenableFutureCallback class and uses the
 * DeferredResult class for replying asynchronously to the HTTP Request 
-* received by a controller with the Spring AMQP reply it receives.
+* which received from the external world, as soon as it gets the response
+* from the Resource Access Proxy.
 *
 * @author  Vasileios Glykantzis
 * @version 1.0

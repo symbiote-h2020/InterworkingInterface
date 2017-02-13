@@ -32,7 +32,15 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.Map;
 import java.util.ArrayList;
 
-
+/**
+* <h1>RegistrationHandlerRPCServer for Resource Access Proxy component</h1>
+* This class exposes Spring AMQP interfaces for allowing Registration Handler to
+* access the external world (e.g. applications, enablers or the symbIoTe Core.)
+*
+* @author  Vasileios Glykantzis
+* @version 1.0
+* @since   2017-01-26
+*/
 @Service
 public class RegistrationHandlerRPCServer {
 
@@ -53,6 +61,15 @@ public class RegistrationHandlerRPCServer {
     private final java.util.Queue<ListenableFuture<ResponseEntity<JSONObject>>> futuresQueue = 
                   new ConcurrentLinkedQueue<ListenableFuture<ResponseEntity<JSONObject>>>();
 
+   /**
+   * Spring AMQP Listener for resource registration requests. This method is invoked when Registration
+   * Handler sends a resource registration request and it is responsible for forwarding the message
+   * to the symbIoTe core. As soon as it receives a reply, it manually sends back the response
+   * to the Registration Handler via the appropriate message queue by the use of the RestAPICallback.
+   * 
+   * @param jsonObject A jsonObject containing the resource description
+   * @param headers The AMQP headers
+   */
     @RabbitListener(bindings = @QueueBinding(
         value = @Queue(value = "symbIoTe-InterworkingInterface-registrationHandler-register_resources", durable = "true", autoDelete = "false", exclusive = "false"),
         exchange = @Exchange(value = "symbIoTe.InterworkingInterface", ignoreDeclarationExceptions = "true", type = ExchangeTypes.DIRECT),
@@ -81,6 +98,15 @@ public class RegistrationHandlerRPCServer {
 
     }
 
+   /**
+   * Spring AMQP Listener for resource unregistration requests. This method is invoked when Registration
+   * Handler sends a resource registration request and it is responsible for forwarding the message
+   * to the symbIoTe core. As soon as it receives a reply, it manually sends back the response
+   * to the Registration Handler via the appropriate message queue by the use of the RestAPICallback.
+   * 
+   * @param id The id of the resource to be deleted
+   * @param headers The AMQP headers
+   */
     @RabbitListener(bindings = @QueueBinding(
         value = @Queue(value = "symbIoTe-InterworkingInterface-registrationHandler-unregister_resources", durable = "true", autoDelete = "false", exclusive = "false"),
         exchange = @Exchange(value = "symbIoTe.InterworkingInterface", ignoreDeclarationExceptions = "true", type = ExchangeTypes.DIRECT),
@@ -110,6 +136,15 @@ public class RegistrationHandlerRPCServer {
 
     }
 
+   /**
+   * Spring AMQP Listener for resource update requests. This method is invoked when Registration
+   * Handler sends a resource registration request and it is responsible for forwarding the message
+   * to the symbIoTe core. As soon as it receives a reply, it manually sends back the response
+   * to the Registration Handler via the appropriate message queue by the use of the RestAPICallback.
+   * 
+   * @param jsonObject A jsonObject containing the resource description
+   * @param headers The AMQP headers
+   */
     @RabbitListener(bindings = @QueueBinding(
         value = @Queue(value = "symbIoTe-InterworkingInterface-registrationHandler-update_resources", durable = "true", autoDelete = "false", exclusive = "false"),
         exchange = @Exchange(value = "symbIoTe.InterworkingInterface", ignoreDeclarationExceptions = "true", type = ExchangeTypes.DIRECT),
