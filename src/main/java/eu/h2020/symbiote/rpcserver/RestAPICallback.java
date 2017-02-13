@@ -18,10 +18,10 @@ import java.util.Map;
 import java.util.Queue;
 
 /**
-* <h1>A Callback for listening to REST replies asynchronously</h1>
+* <h1>A Callback for listening to asynchronous REST replies </h1>
 * This class extends the ListenableFutureCallback class and manually sends
 * back the HTTP reply it receives to the specified "reply-To" queue of the
-* RabbitMQ request received by the RPCServers.
+* RabbitMQ request received by the RPCServer.
 *
 * @author  Vasileios Glykantzis
 * @version 1.0

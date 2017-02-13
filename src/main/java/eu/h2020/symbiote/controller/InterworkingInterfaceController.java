@@ -19,7 +19,14 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import org.json.simple.JSONObject;
 
-
+/**
+* <h1>General RestController for Interworking Interface</h1>
+* 
+*
+* @author  Vasileios Glykantzis
+* @version 1.0
+* @since   2017-01-26
+*/
 @CrossOrigin
 @RestController
 public class InterworkingInterfaceController {
@@ -29,6 +36,12 @@ public class InterworkingInterfaceController {
     @Autowired    
     private RabbitTemplate rabbitTemplate;
 
+   /**
+   * Update the platform id with a GET request. This interface listens to GET requests 
+   * for updating the platform id at runtime and notifies the platform-side components.
+   * 
+   * @param id The new platform id
+   */
     @GetMapping(value="/{platformId}")
     @ResponseBody
     public ResponseEntity<String> updatePlatformId(@PathVariable String id) throws Exception {
