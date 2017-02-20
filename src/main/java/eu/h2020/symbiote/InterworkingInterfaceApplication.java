@@ -38,6 +38,9 @@ public class InterworkingInterfaceApplication extends AsyncConfigurerSupport {
     @Value("${symbIoTe.core.url}")
     private String symbIoTeCoreUrl; 
 
+    @Value("${rap.url}")
+    private String rapUrl; 
+
 	public static void main(String[] args) {
 		SpringApplication.run(InterworkingInterfaceApplication.class, args);
 
@@ -58,6 +61,16 @@ public class InterworkingInterfaceApplication extends AsyncConfigurerSupport {
     // public AlwaysSampler defaultSampler() {
     //     return new AlwaysSampler();
     // }
+
+    @Bean(name="symbIoTeCoreUrl")
+    String symbIoTeCoreUrl() {
+        return symbIoTeCoreUrl.replaceAll("(/*)$", "");
+    }
+
+    @Bean(name="rapUrl")
+    String rapUrl() {
+        return rapUrl.replaceAll("(/*)$", "");
+    }
 
     @Bean
     AsyncRestTemplate asyncRestTemplate() {

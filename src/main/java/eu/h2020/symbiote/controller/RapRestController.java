@@ -49,7 +49,7 @@ public class RapRestController {
 
     private static Log log = LogFactory.getLog(RapRestController.class);
 
-    @Value("${rap.url}")
+    @Autowired
     private String rapUrl;
 
     @Autowired    
@@ -67,7 +67,7 @@ public class RapRestController {
         String requestedUrl = (String) request.getAttribute(
             HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
         String prefix = "/rap";
-        String url = rapUrl + requestedUrl.substring(requestedUrl.indexOf(prefix) + prefix.length());;
+        String url = rapUrl + requestedUrl.substring(requestedUrl.indexOf(prefix));;
                 
         String message = "Received GET request for RAP";
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -101,7 +101,7 @@ public class RapRestController {
         String requestedUrl = (String) request.getAttribute(
             HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
         String prefix = "/rap";
-        String url = rapUrl + requestedUrl.substring(requestedUrl.indexOf(prefix) + prefix.length());;
+        String url = rapUrl + requestedUrl.substring(requestedUrl.indexOf(prefix));;
                 
         String message = "Received POST request for RAP";
         HttpHeaders httpHeaders = new HttpHeaders();

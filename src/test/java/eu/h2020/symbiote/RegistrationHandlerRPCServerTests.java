@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.amqp.rabbit.AsyncRabbitTemplate;
@@ -51,7 +52,8 @@ public class RegistrationHandlerRPCServerTests {
     @Autowired    
     AsyncRestTemplate asyncRestTemplate;
 
-    @Value("${symbIoTe.core.url}")
+    @Autowired
+    @Qualifier("symbIoTeCoreUrl")
     private String symbIoTeCoreUrl;
 
     @Value("${platform.id}")    

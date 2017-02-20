@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.context.annotation.Bean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -74,7 +75,8 @@ public class RapControllerTests {
     @Autowired    
     AsyncRestTemplate asyncRestTemplate;
 
-    @Value("${rap.url}")
+    @Autowired
+    @Qualifier("rapUrl")
     private String rapUrl;
 
     private MockMvc mockMvc;
@@ -95,7 +97,7 @@ public class RapControllerTests {
     public void testRapGet() throws Exception {
 
         String value = "1";
-        String url = rapUrl + "/testRapGet";
+        String url = rapUrl + "/rap/testRapGet";
 
         mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.GET))
                 .andRespond(request -> {
@@ -130,7 +132,7 @@ public class RapControllerTests {
     public void testRapPost() throws Exception {
 
         String value = "1";
-        String url = rapUrl + "/testRapPost";
+        String url = rapUrl + "/rap/testRapPost";
 
         mockServer.expect(requestTo(url)).andExpect(method(HttpMethod.POST))
                 .andRespond(request -> {

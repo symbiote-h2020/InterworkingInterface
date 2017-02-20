@@ -41,6 +41,7 @@ import java.util.ArrayList;
 * @version 1.0
 * @since   2017-01-26
 */
+
 @Service
 public class RegistrationHandlerRPCServer {
 
@@ -52,7 +53,7 @@ public class RegistrationHandlerRPCServer {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @Value("${symbIoTe.core.url}")    
+    @Autowired   
     private String symbIoTeCoreUrl;
 
     @Value("${platform.id}")    
