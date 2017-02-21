@@ -174,7 +174,7 @@ public class RegistrationHandlerRPCServerTests {
         while(!future.isDone())
             TimeUnit.SECONDS.sleep(1);
 
-        assertEquals(resultRef.get().get("id"), 15);
+        assertEquals(resultRef.get().get("id"), "15");
     }
 
     @Test
@@ -186,7 +186,7 @@ public class RegistrationHandlerRPCServerTests {
         String routingKey = exchangeName + ".registrationHandler." + message;
         JSONObject location = newLocation();
         JSONObject resource = newResource(location);
-        Integer id = (Integer) resource.get("id");
+        String id = resource.get("id").toString();
         String url = symbIoTeCoreUrl + "/platforms/" + platformId + "/resources/" + id;
 
         log.info("symbioteurl helppppppppp " + symbIoTeCoreUrl);
@@ -257,8 +257,8 @@ public class RegistrationHandlerRPCServerTests {
         JSONObject resource = new JSONObject();
         List<String> observedProperties = Arrays.asList("air", "temp");
 
-        resource.put("internalId", 123);
-        resource.put("id", 15);
+        resource.put("internalId", "123");
+        resource.put("id", "15");
         resource.put("name", "resource1");
         resource.put("owner", "localOwner");
         resource.put("description", "somedesc");
