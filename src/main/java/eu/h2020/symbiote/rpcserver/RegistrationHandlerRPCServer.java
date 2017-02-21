@@ -154,8 +154,8 @@ public class RegistrationHandlerRPCServer {
     public void resourceUpdate(JSONObject jsonObject, @Headers() Map<String, String> headers) {
   
         String message = "update_resources";
-        Integer id = (Integer)jsonObject.get("id");
-        String url = symbIoTeCoreUrl + "/platforms/" + platformId + "/resources/" + id;
+        Integer id = Integer.parseInt(jsonObject.get("id").toString());
+        String url = symbIoTeCoreUrl + "/platforms/" + platformId + "/resources/" + id.toString();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
