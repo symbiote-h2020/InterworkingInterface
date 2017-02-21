@@ -123,7 +123,7 @@ public class RegistrationHandlerRPCServerTests {
             TimeUnit.SECONDS.sleep(1);
 
         JSONObject response = resultRef.get();
-        assertEquals(response.get("internalId"), resource.get("internalId"));
+        assertEquals(response.get("internalId").toString(), resource.get("internalId").toString());
 	}
 
     @Test
@@ -174,7 +174,7 @@ public class RegistrationHandlerRPCServerTests {
         while(!future.isDone())
             TimeUnit.SECONDS.sleep(1);
 
-        assertEquals(resultRef.get().get("id"), "15");
+        assertEquals(resultRef.get().get("id").toString(), "15");
     }
 
     @Test
@@ -235,7 +235,7 @@ public class RegistrationHandlerRPCServerTests {
             TimeUnit.SECONDS.sleep(1);
 
         JSONObject response = resultRef.get();
-        assertEquals(response.get("internalId"), resource.get("internalId"));
+        assertEquals(response.get("internalId").toString(), resource.get("internalId").toString());
     }
 
 
